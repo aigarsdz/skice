@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Three Sketch</title>
+
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    canvas {
+      box-shadow:
+        0px 0px 2.2px rgba(0, 0, 0, 0.02),
+        0px 0px 5.3px rgba(0, 0, 0, 0.028),
+        0px 0px 10px rgba(0, 0, 0, 0.035),
+        0px 0px 17.9px rgba(0, 0, 0, 0.042),
+        0px 0px 33.4px rgba(0, 0, 0, 0.05),
+        0px 0px 80px rgba(0, 0, 0, 0.07)
+      ;
+    }
+  </style>
+
+  <script async src="/lib-assets/es_module_shims.js"></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three/examples/jsm/",
+        "math": "/lib-assets/math.js",
+        "canvas_settings": "/lib-assets/canvas_settings.js",
+        "exporter": "/lib-assets/exporter.js"//= module_imports
+      }
+    }
+  </script>
+
+</head>
+<body>
+  <canvas id="sketch_canvas" width="100" height="100"></canvas>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:3000', ['json'])
+
+    socket.addEventListener('message', event => {
+      const message = JSON.parse(event.data)
+
+      if (message.action === 'reload') {
+        location.reload()
+      }
+    })
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three'
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+
+    import CanvasSettings from 'canvas_settings'
+    import { exportWebM, exportPNG } from 'exporter'
+
+    const canvas = document.getElementById('sketch_canvas')
+    const CANVAS_SETTINGS = new CanvasSettings()
+
+    //= sketch code
+
+    document.addEventListener('keydown', event => {
+      if (event.ctrlKey && event.key == 's') {
+        event.preventDefault()
+
+        if (CANVAS_SETTINGS.exportAs.startsWith('video/')) {
+          exportWebM(canvas, CANVAS_SETTINGS.duration, CANVAS_SETTINGS.exportAs)
+        } else {
+          try {
+            exportPNG(renderer)
+          } catch (error) {
+            console.error(error)
+          }
+        }
+      }
+    }, false)
+  </script>
+</body>
+</html>

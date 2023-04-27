@@ -1,0 +1,12 @@
+{
+  "name": "skice",
+  "version": "1.0.0",
+  "description": "A helper tool for local sketching using canvas",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "author": "Aigars Dzerviniks",
+  "license": "MIT",
+  "bin": "./bin/index.js"
+}
