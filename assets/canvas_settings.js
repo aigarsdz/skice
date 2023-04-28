@@ -11,6 +11,7 @@ class CanvasSettings {
   aspectRatio = 1
   exportAs = 'image'
   duration = 5000
+  canvasContext = this.constructor.CONTEXT.webgl
 
   constructor () {
     this.updateAspectRatio()
@@ -40,6 +41,13 @@ class CanvasSettings {
     this.#fullHeight = false
 
     this.updateAspectRatio()
+  }
+
+  static get CONTEXT () {
+    return {
+      canvas2d: '2d',
+      webgl: 'webg;'
+    }
   }
 
   updateAspectRatio () {

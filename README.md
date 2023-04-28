@@ -15,7 +15,7 @@ npm install -g skice
 ### Usage
 
 ```
-skice sketch.js --extras=noise --new --open
+skice sketch.js --extras=noise --new --open --context=2d
 ```
 
 ### Options
@@ -65,3 +65,41 @@ package that works with import maps to this file.
 Available extras:
 - noise - [gl-noise](https://github.com/FarazzShaikh/glNoise) package
 
+#### --context
+
+Selects the canvas context to use. A different sketch template will be used based on this value.
+The default is `webgl`.
+
+Supported contexts:
+
+- webgl (default)
+- 2d
+
+### Settings
+
+Every sketch file has access to the `CANVAS_SETTINGS` object and `CanvasSettings` class. They can be
+used to adjust rendering and export options.
+
+#### `CANVAS_SETTINGS.width`
+
+The width of the canvas element. It will change automatically when the browser window
+gets smaller than this value.
+
+#### `CANVAS_SETTINGS.height`
+
+The height of the canvas element. It will change automatically when the browser window
+gets smaller than this value.
+
+#### `CANVAS_SETTINGS.exportAs`
+
+The export format. The default is `image`.
+
+Possible values:
+
+- image (exports as a PNG file)
+- video/* (* can be any video format supported by the browser, e.g., video/webm)
+
+#### `CANVAS_SETTINGS.duration`
+
+The duration of the video file if a video format is used for the `exportAs` setting. It must be in
+milliseconds. The default value is `5000`.

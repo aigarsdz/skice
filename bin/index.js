@@ -56,7 +56,7 @@ To see the usage, execute ${EXECUTABLE_NAME} --help
   `)
 } else {
   if (command.needsFile) {
-    fs.copyFileSync(path.resolve(__dirname, '../templates/sketch.js'), command.filePath)
+    fs.copyFileSync(path.resolve(__dirname, `../templates/${command.canvasContext}_sketch.js`), command.filePath)
   }
 
   if (command.needsExtras) {

@@ -62,9 +62,6 @@
   </script>
 
   <script type="module">
-    import * as THREE from 'three'
-    import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-
     import CanvasSettings from 'canvas_settings'
     import { exportWebM, exportPNG } from 'exporter'
 
@@ -78,10 +75,14 @@
         event.preventDefault()
 
         if (CANVAS_SETTINGS.exportAs.startsWith('video/')) {
-          exportWebM(canvas, CANVAS_SETTINGS.duration, CANVAS_SETTINGS.exportAs)
+          exportVideo(canvas, CANVAS_SETTINGS.duration, CANVAS_SETTINGS.exportAs)
         } else {
           try {
-            exportPNG(renderer)
+            if (CANVAS_SETTINGS.canvasContext === CanvasSettings.CONTEXT.webgl) {
+              exportPNG(canvas, renderer)
+            } else {
+              exportPNG(canvas)
+            }
           } catch (error) {
             console.error(error)
           }

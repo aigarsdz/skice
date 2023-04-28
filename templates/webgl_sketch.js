@@ -1,3 +1,6 @@
+import * as THREE from 'three'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+
 const scene = new THREE.Scene()
 const camera = new THREE.OrthographicCamera()
 const renderer = new THREE.WebGLRenderer({ canvas })
