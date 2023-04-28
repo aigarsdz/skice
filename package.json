@@ -1,12 +1,16 @@
 {
   "name": "skice",
-  "version": "1.0.0",
-  "description": "A helper tool for local sketching using canvas",
+  "version": "1.0.1",
+  "description": "A helper tool for local sketching using HTML canvas",
   "main": "index.js",
   "scripts": {
     "test": "node --test"
   },
   "author": "Aigars Dzerviniks",
   "license": "MIT",
-  "bin": "./bin/index.js"
+  "bin": "./bin/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aigarsdz/skice.git"
+  }
 }
