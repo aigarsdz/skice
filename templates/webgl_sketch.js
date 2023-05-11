@@ -13,10 +13,10 @@ renderer.setSize(CANVAS_SETTINGS.width, CANVAS_SETTINGS.height)
 renderer.setClearColor('white', 1)
 
 const geometry = new THREE.BoxGeometry(1, 1, 1)
-const light = new THREE.DirectionalLight('white', 1)
-const ambientLight = new THREE.AmbientLight('hsl(0, 0%, 25%)')
 const material = new THREE.MeshStandardMaterial({ color: 'red' })
 const cube = new THREE.Mesh(geometry, material)
+// const light = new THREE.DirectionalLight('white', 1)
+// const ambientLight = new THREE.AmbientLight('hsl(0, 0%, 25%)')
 
 scene.add(cube)
 
@@ -33,10 +33,10 @@ camera.position.set(zoom, zoom, zoom)
 camera.lookAt(new THREE.Vector3())
 camera.updateProjectionMatrix()
 
-light.position.set(2, 2, 4)
+// light.position.set(2, 2, 4)
 
-scene.add(light)
-scene.add(ambientLight)
+// scene.add(light)
+// scene.add(ambientLight)
 
 // NOTE: Uncomment the following lines to display scene helpers!
 // scene.add(new THREE.GridHelper(5, 50))
