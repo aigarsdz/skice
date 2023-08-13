@@ -79,7 +79,7 @@
         } else {
           try {
             if (CANVAS_SETTINGS.canvasContext === CanvasSettings.CONTEXT.webgl) {
-              exportPNG(canvas, renderer, scene)
+              exportPNG(canvas, { renderer, scene, camera })
             } else {
               exportPNG(canvas)
             }
