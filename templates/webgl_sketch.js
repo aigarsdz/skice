@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 
-const scene = new THREE.Scene()
+const scene = new THREE.Scene() // NOTE: do not rename this variable if you are going to use the save function!
 const camera = new THREE.OrthographicCamera()
 const renderer = new THREE.WebGLRenderer({ canvas })
 const controls = new OrbitControls(camera, canvas)

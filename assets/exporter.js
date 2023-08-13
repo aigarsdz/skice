@@ -27,10 +27,10 @@ export function exportWebM (canvas, duration, type) {
   setTimeout(() => recorder.stop(), duration)
 }
 
-export function exportPNG (canvas, renderer = null) {
+export function exportPNG (canvas, renderer = null, scene = null) {
   const link = document.createElement('a')
 
-  if (renderer) {
+  if (renderer && scene) {
     renderer.render(scene, camera)
     link.href = renderer.domElement.toDataURL('image/png').replace('image/png', 'image/octet-stream')
   } else {
