@@ -24,10 +24,9 @@ test('Sketch creation', async t => {
   })
 
   await t.test('Creates a new file if necessary', async () => {
-    const process = spawn('node', [executablePath, outputSketchPath, '--new'], { encoding : 'utf8' })
+    spawn('node', [executablePath, outputSketchPath, '--new', '--no-server'], { encoding : 'utf8' })
 
     await sleep(2000)
-    process.kill()
     assert.ok(fs.existsSync(outputSketchPath))
   })
 })

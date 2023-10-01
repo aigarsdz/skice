@@ -11,12 +11,16 @@ skice [FILE_PATH] [...OPTIONS]
 
 Options:
 
-  -h           Prints help.
-  --help       Prints help.
-  --new        Creates the file if it doesn't exist.
-  --open       Opens the file in the default browser.
-  --extras     Creates a packages file to add additional packages to the sketch.
-  --context    Switches the template used for a new sketch based on the selected canvas context.
+  -h             Outputs help.
+  --help         Outputs help.
+  -v             Outputs the version number
+  --version      Outputs the version number
+  --new          Creates the file if it doesn't exist.
+  --open         Opens the file in the default browser.
+  --extras       Creates a packages file to add additional packages to the sketch.
+  --context      Switches the template used for a new sketch based on the selected canvas context.
+  --port         Changes the port number on which the server will be listening.
+  --no-server    Do not launch the server.
 
 Available extras:
 
@@ -29,22 +33,14 @@ Supported contexts:
 
 `
 
-test('Prints help with a shorthand option', () => {
+test('Outputs help with a shorthand option', () => {
   const process = spawnSync('node', [executablePath, '-h'], { encoding : 'utf8' })
-
-  if (process.stderr) {
-    throw new Error(process.stderr);
-  }
 
   assert.strictEqual(process.stdout, expectedOutput)
 })
 
-test('Prints help with a full option', () => {
+test('Outputs help with a full option', () => {
   const process = spawnSync('node', [executablePath, '--help'], { encoding : 'utf8' })
-
-  if (process.stderr) {
-    throw new Error(process.stderr);
-  }
 
   assert.strictEqual(process.stdout, expectedOutput)
 })

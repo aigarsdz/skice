@@ -27,6 +27,14 @@ skice -h
 
 Outputs information about the usage, available options and additional packages.
 
+#### -v, --version
+
+```
+skice -v
+```
+
+Outputs the version number.
+
 #### --new
 
 ```
@@ -74,6 +82,15 @@ Supported contexts:
 
 - webgl (default)
 - 2d
+
+#### --port
+
+Changes the port number on which the server will be listening. Accepts any valid port number between
+1 and 65535.
+
+#### --no-server
+
+Prevents the HTTP server from launching.
 
 ### Settings
 

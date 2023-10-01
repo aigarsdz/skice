@@ -25,10 +25,9 @@ test('Extras', async t => {
   })
 
   await t.test('Creates an imports file if necessary', async () => {
-    const process = spawn('node', [executablePath, outputSketchPath, '--new', '--extras=noise'], { encoding : 'utf8' })
+    spawn('node', [executablePath, outputSketchPath, '--new', '--extras=noise', '--no-server'], { encoding : 'utf8' })
 
     await sleep(2000)
-    process.kill()
     assert.ok(fs.existsSync(outputPackagesPath))
   })
 })

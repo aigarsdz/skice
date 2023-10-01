@@ -46,13 +46,19 @@ function createOrUpdateImportsFile () {
   fs.writeFileSync(importMapFilePath, JSON.stringify(imports, null, 2))
 }
 
+if (command.needsVersionNumber) {
+  const package = require('../package.json')
+
+  console.log(`skice ${package['version']}`)
+}
+
 if (command.isEmpty || command.needsHelp) {
   command.printHelp()
 } else if (command.noFile) {
   console.error(`
 Specify the sketch file!
 
-To see the usage, execute ${EXECUTABLE_NAME} --help
+To see the usage, execute ${Command.EXECUTABLE_NAME} --help
   `)
 } else {
   if (command.needsFile) {
@@ -66,7 +72,9 @@ To see the usage, execute ${EXECUTABLE_NAME} --help
   if (fs.existsSync(command.filePath)) {
     const server = new Server(command)
 
-    server.start()
+    if (command.launchServer) {
+      server.start()
+    }
 
     if (command.invokesBrowser) {
       openURL('http://localhost:3000')
