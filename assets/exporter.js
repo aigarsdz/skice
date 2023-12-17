@@ -1,4 +1,4 @@
-export function exportWebM (canvas, duration, type) {
+export function exportVideo (canvas, duration, type) {
   const chunks = []
   const stream = canvas.captureStream()
   const recorder = new MediaRecorder(stream)
