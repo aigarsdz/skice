@@ -1,4 +1,5 @@
 import { min } from 'math'
+import { exportVideo, exportPNG } from 'exporter'
 
 class CanvasSettings {
   #width = window.innerWidth
@@ -13,7 +14,11 @@ class CanvasSettings {
   duration = 5000
   canvasContext = this.constructor.CONTEXT.webgl
 
-  constructor () {
+  constructor (context) {
+    if (context) {
+      this.canvasContext = context
+    }
+
     this.updateAspectRatio()
 
     window.addEventListener('resize', () => this.calculateSizes())
@@ -72,6 +77,28 @@ class CanvasSettings {
     }
 
     this.updateAspectRatio()
+  }
+
+  enableExport (canvas, renderer, scene, camera) {
+    document.addEventListener('keydown', event => {
+      if (event.ctrlKey && event.key == 's') {
+        event.preventDefault()
+
+        if (this.exportAs.startsWith('video/')) {
+          exportVideo(canvas, this.duration, this.exportAs)
+        } else {
+          try {
+            if (this.canvasContext === CanvasSettings.CONTEXT.webgl) {
+              exportPNG(canvas, { renderer, scene, camera })
+            } else {
+              exportPNG(canvas)
+            }
+          } catch (error) {
+            console.error(error)
+          }
+        }
+      }
+    }, false)
   }
 }
 

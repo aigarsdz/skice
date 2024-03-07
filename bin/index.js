@@ -7,6 +7,7 @@ const { exec } = require('child_process')
 
 const Server = require('../lib/server')
 const Command = require('../lib/command')
+const Exporter = require('../lib/exporter')
 
 const command = new Command(process.argv)
 
@@ -78,6 +79,12 @@ To see the usage, execute ${Command.EXECUTABLE_NAME} --help
 
     if (command.invokesBrowser) {
       openURL('http://localhost:3000')
+    }
+
+    if (command.needsExport) {
+      const exporter = new Exporter(command)
+
+      exporter.run()
     }
   } else {
     console.log("\nThe specified sketch file does not exist\n")

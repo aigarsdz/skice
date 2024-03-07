@@ -1,15 +1,21 @@
-CANVAS_SETTINGS.canvasContext = CanvasSettings.CONTEXT.canvas2d
-// CANVAS_SETTINGS.width = 1080
-// CANVAS_SETTINGS.height = 1080
+import CanvasSettings from 'canvas_settings'
 
-const context = canvas.getContext(CANVAS_SETTINGS.canvasContext)
+const canvas = document.getElementById('sketch_canvas')
+const canvasSettings = new CanvasSettings(CanvasSettings.CONTEXT.canvas2d)
+
+// canvasSettings.width = 1080
+// canvasSettings.height = 1080
+
+const context = canvas.getContext(canvasSettings.canvasContext)
+
+canvasSettings.enableExport(canvas)
 
 // NOTE: this variable can be used for elapsed time calculations in the animate function.
 // const startTime = Date.now()
 
 function resizeCanvas () {
-  canvas.width = CANVAS_SETTINGS.width
-  canvas.height = CANVAS_SETTINGS.height
+  canvas.width = canvasSettings.width
+  canvas.height = canvasSettings.height
 }
 
 function draw () {
@@ -17,13 +23,13 @@ function draw () {
 
   context.fillStyle = 'white'
 
-  context.fillRect(0, 0, CANVAS_SETTINGS.width, CANVAS_SETTINGS.height)
+  context.fillRect(0, 0, canvasSettings.width, canvasSettings.height)
 
   context.fillStyle = 'black'
 
   const cellCount = 5
-  const cellWidth = CANVAS_SETTINGS.width / cellCount
-  const cellHeight = CANVAS_SETTINGS.height / cellCount
+  const cellWidth = canvasSettings.width / cellCount
+  const cellHeight = canvasSettings.height / cellCount
   const horizontalOffset = cellWidth / 2
   const verticalOffset = cellHeight / 2
 

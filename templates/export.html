@@ -36,10 +36,10 @@
       "imports": {
         "three": "https://unpkg.com/three/build/three.module.js",
         "three/addons/": "https://unpkg.com/three/examples/jsm/",
-        "math": "/lib-assets/math.js",
-        "canvas_settings": "/lib-assets/canvas_settings.js",
-        "exporter": "/lib-assets/exporter.js",
-        "network": "/lib-assets/network.js"//= module_imports
+        "math": "/js/math.js",
+        "canvas_settings": "/js/canvas_settings.js",
+        "exporter": "/js/exporter.js",
+        "network": "/js/network.js"//= module_imports
       }
     }
   </script>
@@ -47,18 +47,6 @@
 </head>
 <body>
   <canvas id="sketch_canvas" width="100" height="100"></canvas>
-
-  <script>
-    const socket = new WebSocket('ws://localhost:3000', ['json'])
-
-    socket.addEventListener('message', event => {
-      const message = JSON.parse(event.data)
-
-      if (message.action === 'reload') {
-        location.reload()
-      }
-    })
-  </script>
 
   <script type="module" src="//SKETCH_SOURCE_URL"></script>
 </body>
