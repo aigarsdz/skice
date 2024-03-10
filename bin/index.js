@@ -9,7 +9,7 @@ const Server = require('../lib/server')
 const Command = require('../src/command')
 const Exporter = require('../lib/exporter')
 const { outputHelp, outputUnavailableCommand } = require('../src/helper')
-const { createProject } = require('../src/project_manager')
+const ProjectManager = require('../src/project_manager')
 
 const command = new Command(process.argv)
 
@@ -58,13 +58,15 @@ if (command.needsHelp) {
 }
 
 if (command.needsVersionNumber) {
-  const package = require('../package.json')
+  const packageConfiguration = require('../package.json')
 
-  console.log(`${package['name']} ${package['version']}`)
+  console.log(`${packageConfiguration['name']} ${packageConfiguration['version']}`)
 }
 
 if (command.needsProject) {
-  createProject(command.projectDirectoryPath)
+  const projectManager = new ProjectManager()
+
+  projectManager.create(command.projectDirectoryPath, command.canvasContext)
 }
 
 // if (command.isEmpty || command.needsHelp) {

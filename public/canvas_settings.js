@@ -51,7 +51,7 @@ class CanvasSettings {
   static get CONTEXT () {
     return {
       canvas2d: '2d',
-      webgl: 'webg;'
+      webgl: 'webgl'
     }
   }
 

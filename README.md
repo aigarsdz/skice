@@ -135,7 +135,7 @@ const canvas = document.getElementById('sketch_canvas')
 const canvasSettings = new CanvasSettings()
 ```
 
-ALternatively you can keep the old naming convention.
+Alternatively you can keep the old naming convention.
 
 ```js
 import CanvasSettings from 'canvas_settings'

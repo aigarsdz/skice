@@ -16,6 +16,10 @@ class Command {
     'new': this.#parseNewProject
   }
 
+  #AVAILABLE_OPTIONS = {
+    '--context': this.#parseContext
+  }
+
   needsHelp = false
   helpTopic;
   notAvailable = false
@@ -23,6 +27,7 @@ class Command {
   needsVersionNumber = false
   needsProject = false
   projectDirectoryPath;
+  canvasContext = 'webgl'
 
   constructor (argv) {
     const [nodeExecutable, execulatbleFile, ...callArguments] = argv
@@ -39,6 +44,10 @@ class Command {
       if (this.#AVAILABLE_COMMANDS[argument]) {
         if (this.#AVAILABLE_COMMANDS[argument].call(this, argument, callArguments) == PARSE_RESULTS.terminate) {
           break
+        }
+      } else if (argument.startsWith('-')) {
+        if (this.#AVAILABLE_OPTIONS[argument]) {
+          this.#AVAILABLE_OPTIONS[argument].call(this, argument, callArguments)
         }
       } else {
         this.needsHelp = true
@@ -81,7 +90,21 @@ class Command {
       this.needsHelp = true
     }
 
-    return PARSE_RESULTS.terminate
+    return PARSE_RESULTS.proceed
+  }
+
+  #parseContext (argument, callArguments) {
+    if (argument.includes('=')) {
+      const [_, contextValue] = argument.split('=')
+
+      this.canvasContext = contextValue
+    } else {
+      const context = callArguments.shift()
+
+      if (context) {
+        this.canvasContext = contextValue
+      }
+    }
   }
 }
 

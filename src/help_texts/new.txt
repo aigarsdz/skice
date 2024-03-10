@@ -1,4 +1,4 @@
 
 Usage:
 
-  skice new <project_directory_path>
+  skice new <project_directory_path> [--context (webgl | 2d)]
