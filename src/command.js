@@ -1,3 +1,5 @@
+const path = require('path')
+const fs = require('fs')
 const ColourfulText = require('./colourful_text')
 
 const PARSE_RESULTS = {
@@ -13,7 +15,8 @@ class Command {
     version: this.#parseVersion,
     '-v': this.#parseVersion,
     '--version': this.#parseVersion,
-    'new': this.#parseNewProject
+    'new': this.#parseNewProject,
+    'run': this.#parseRun
   }
 
   #AVAILABLE_OPTIONS = {
@@ -28,6 +31,9 @@ class Command {
   needsProject = false
   projectDirectoryPath;
   canvasContext = 'webgl'
+  needsServer = false
+  invokesBrowser = true
+  currentDirtectory;
 
   constructor (argv) {
     const [nodeExecutable, execulatbleFile, ...callArguments] = argv
@@ -105,6 +111,22 @@ class Command {
         this.canvasContext = contextValue
       }
     }
+  }
+
+  #parseRun (argument, callArguments) {
+    const ct = new ColourfulText()
+
+    this.currentDirtectory = process.cwd()
+
+    const configFilePath = path.join(this.currentDirtectory, 'skice.config.json')
+
+    if (fs.existsSync(configFilePath)) {
+      this.needsServer = true
+    } else {
+      console.error(ct.red("\nThe current directory is not a skice project.\n").value)
+    }
+
+    return PARSE_RESULTS.proceed
   }
 }
 

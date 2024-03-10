@@ -146,13 +146,12 @@ class ProjectManager {
     try {
       fs.writeFileSync(
         configPath,
-        configContent.replace('ROOT_FILE_NAME', `${this.projectName}.js`)
-                     .replace('VERSION_NUMBER', packageConfiguration['version'])
+        configContent.replace('VERSION_NUMBER', packageConfiguration['version'])
       )
 
       fs.writeFileSync(
         htmlPath,
-        htmlContent.replace('//SKETCH_SOURCE_URL', `/${this.projectName}.js`)
+        htmlContent.replace('//SKETCH_SOURCE_URL', `/js/${this.projectName}.js`)
       )
     } catch (error) {
       console.error(ct.red("\nCould not update the template files.\n\n").value)
