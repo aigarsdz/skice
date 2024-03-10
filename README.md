@@ -120,3 +120,26 @@ Possible values:
 
 The duration of the video file if a video format is used for the `exportAs` setting. It must be in
 milliseconds. The default value is `5000`.
+
+### Upgrading from 1.3.2 to 1.4.x
+
+Some of the functionality has been moved from the HTML template to the sketch file in preparation for
+version 2.0.0. Refer to the updated [Canvas 2D](templates/2d_sketch.js) and [WebGL](templates/webgl_sketch.js)
+sketch templates to see what code needs to be changed, but the most important part is to add `CanvasSettings`
+import and instantiation as well as a reference to the canvas element to your existing sketches like this.
+
+```js
+import CanvasSettings from 'canvas_settings'
+
+const canvas = document.getElementById('sketch_canvas')
+const canvasSettings = new CanvasSettings()
+```
+
+ALternatively you can keep the old naming convention.
+
+```js
+import CanvasSettings from 'canvas_settings'
+
+const canvas = document.getElementById('sketch_canvas')
+const CANVAS_SETTINGS = new CanvasSettings()
+```
