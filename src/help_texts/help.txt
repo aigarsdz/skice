@@ -1,0 +1,10 @@
+
+Usage:
+
+  skice <command> [<path>] [options...]
+
+Commands:
+
+  help, -h, --help         Outputs help text.
+  version, -v, --version   Outputs the version number.
+  new                      Creates a new sketch project.

@@ -1,0 +1,4 @@
+
+Usage:
+
+  skice new <project_directory_path>
