@@ -6,9 +6,8 @@ const { spawn } = require('child_process')
 const http = require('http')
 
 const executablePath = path.resolve(__dirname, '../bin/index.js')
-const outputDirectoryPath = path.resolve(__dirname, 'port_number_output')
-const outputSketchPath1 = path.resolve(outputDirectoryPath, 'sketch_1.js')
-const outputSketchPath2 = path.resolve(outputDirectoryPath, 'sketch_2.js')
+const outputDirectoryPath1 = path.resolve(__dirname, 'port_number_output_1')
+const outputDirectoryPath2 = path.resolve(__dirname, 'port_number_output_2')
 
 function sleep (time) {
   return new Promise(resolve => {
@@ -23,16 +22,16 @@ function getResponseCode (url) {
 }
 
 test('Port number', async t => {
-  t.beforeEach(() => {
-    fs.mkdirSync(outputDirectoryPath)
-  })
-
   t.afterEach(() => {
-    fs.rmSync(outputDirectoryPath, { force: true, recursive: true })
+    fs.rmSync(outputDirectoryPath1, { force: true, recursive: true })
+    fs.rmSync(outputDirectoryPath2, { force: true, recursive: true })
   })
 
   await t.test('Changes the default port number to a custom one', async () => {
-    const process = spawn('node', [executablePath, outputSketchPath1, '--new', '--port', '8000'], { encoding : 'utf8' })
+    spawn('node', [executablePath, 'new', outputDirectoryPath1], { encoding : 'utf8' })
+    await sleep(2000)
+
+    const process = spawn('node', [executablePath, 'run', '--port', '8000'], { encoding : 'utf8', cwd: outputDirectoryPath1 })
 
     await sleep(2000)
 
@@ -43,7 +42,10 @@ test('Port number', async t => {
   })
 
   await t.test('Reverts to the default port number if an incorrect value is given', async () => {
-    const process = spawn('node', [executablePath, outputSketchPath2, '--new', '--port', 'incorrect'], { encoding : 'utf8' })
+    spawn('node', [executablePath, 'new', outputDirectoryPath2], { encoding : 'utf8' })
+    await sleep(2000)
+
+    const process = spawn('node', [executablePath, 'run', '--port', 'error'], { encoding : 'utf8', cwd: outputDirectoryPath2 })
 
     await sleep(2000)
 

@@ -5,7 +5,7 @@ const { spawnSync } = require('child_process')
 
 const executablePath = path.resolve(__dirname, '../bin/index.js')
 const package = require('../package.json')
-const expectedOutput = `skice ${package['version']}\n`
+const expectedOutput = `${package['name']} ${package['version']}\n`
 
 test('Outputs the version number with a shorthand option', () => {
   const process = spawnSync('node', [executablePath, '-v'], { encoding : 'utf8' })

@@ -48,6 +48,6 @@ if (command.needsServer) {
   server.start()
 
   if (command.invokesBrowser) {
-    openURL('http://localhost:3000')
+    openURL(`http://localhost:${command.portNumber}`)
   }
 }

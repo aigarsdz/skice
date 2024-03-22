@@ -36,8 +36,8 @@ class Server {
   start () {
     const ct = new ColourfulText()
 
-    this.#server.listen(3000, 'localhost', () => {
-      console.info(ct.default("\nServer running at ").cyan("http://localhost:3000\n").value)
+    this.#server.listen(this.#command.portNumber, 'localhost', () => {
+      console.info(ct.default("\nServer running at ").cyan(`http://localhost:${this.#command.portNumber}\n`).value)
     })
   }
 

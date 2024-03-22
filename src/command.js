@@ -20,7 +20,8 @@ class Command {
   }
 
   #AVAILABLE_OPTIONS = {
-    '--context': this.#parseContext
+    '--context': this.#parseContext,
+    '--port': this.#parsePortNumber
   }
 
   needsHelp = false
@@ -34,6 +35,7 @@ class Command {
   needsServer = false
   invokesBrowser = true
   currentDirtectory;
+  portNumber = 3000
 
   constructor (argv) {
     const [nodeExecutable, execulatbleFile, ...callArguments] = argv
@@ -127,6 +129,24 @@ class Command {
     }
 
     return PARSE_RESULTS.proceed
+  }
+
+  #parsePortNumber (argument, callArguments) {
+    if (argument.includes('=')) {
+      const [_, portNumber] = argument.split('=')
+
+      this.portNumber = parseInt(portNumber, 10)
+    } else {
+      const portNumber = callArguments.shift()
+
+      if (portNumber) {
+        this.portNumber = parseInt(portNumber, 10)
+      }
+    }
+
+    if (isNaN(this.portNumber)) {
+      this.portNumber = 3000
+    }
   }
 }
 
