@@ -21,7 +21,8 @@ class Command {
 
   #AVAILABLE_OPTIONS = {
     '--context': this.#parseContext,
-    '--port': this.#parsePortNumber
+    '--port': this.#parsePortNumber,
+    '--no-browser': this.#disableBrowser
   }
 
   needsHelp = false
@@ -54,8 +55,16 @@ class Command {
           break
         }
       } else if (argument.startsWith('-')) {
-        if (this.#AVAILABLE_OPTIONS[argument]) {
-          this.#AVAILABLE_OPTIONS[argument].call(this, argument, callArguments)
+        const [name, value] = argument.split('=')
+
+        if (value) {
+          callArguments.unshift(value)
+        }
+
+        if (this.#AVAILABLE_OPTIONS[name]) {
+          if (this.#AVAILABLE_OPTIONS[name].call(this, name, callArguments) == PARSE_RESULTS.terminate) {
+            break
+          }
         }
       } else {
         this.needsHelp = true
@@ -102,16 +111,10 @@ class Command {
   }
 
   #parseContext (argument, callArguments) {
-    if (argument.includes('=')) {
-      const [_, contextValue] = argument.split('=')
+    const context = callArguments.shift()
 
-      this.canvasContext = contextValue
-    } else {
-      const context = callArguments.shift()
-
-      if (context) {
-        this.canvasContext = contextValue
-      }
+    if (context) {
+      this.canvasContext = context
     }
   }
 
@@ -132,21 +135,21 @@ class Command {
   }
 
   #parsePortNumber (argument, callArguments) {
-    if (argument.includes('=')) {
-      const [_, portNumber] = argument.split('=')
+    const portNumber = callArguments.shift()
 
+    if (portNumber) {
       this.portNumber = parseInt(portNumber, 10)
-    } else {
-      const portNumber = callArguments.shift()
-
-      if (portNumber) {
-        this.portNumber = parseInt(portNumber, 10)
-      }
     }
 
     if (isNaN(this.portNumber)) {
       this.portNumber = 3000
     }
+  }
+
+  #disableBrowser () {
+    this.invokesBrowser = false
+
+    return PARSE_RESULTS.proceed
   }
 }
 

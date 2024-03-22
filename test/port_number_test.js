@@ -31,13 +31,14 @@ test('Port number', async t => {
     spawn('node', [executablePath, 'new', outputDirectoryPath1], { encoding : 'utf8' })
     await sleep(2000)
 
-    const process = spawn('node', [executablePath, 'run', '--port', '8000'], { encoding : 'utf8', cwd: outputDirectoryPath1 })
+    const process = spawn('node', [executablePath, 'run', '--port', '8000', '--no-browser'], { encoding : 'utf8', cwd: outputDirectoryPath1 })
 
     await sleep(2000)
 
     const responseCode = await getResponseCode('http://localhost:8000');
 
     process.kill()
+    await sleep(2000)
     assert.ok(responseCode, 200)
   })
 
@@ -45,13 +46,14 @@ test('Port number', async t => {
     spawn('node', [executablePath, 'new', outputDirectoryPath2], { encoding : 'utf8' })
     await sleep(2000)
 
-    const process = spawn('node', [executablePath, 'run', '--port', 'error'], { encoding : 'utf8', cwd: outputDirectoryPath2 })
+    const process = spawn('node', [executablePath, 'run', '--port', 'error', '--no-browser'], { encoding : 'utf8', cwd: outputDirectoryPath2 })
 
     await sleep(2000)
 
     const responseCode = await getResponseCode('http://localhost:3000');
 
     process.kill()
+    await sleep(2000)
     assert.ok(responseCode, 200)
   })
 })
