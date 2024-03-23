@@ -2,3 +2,7 @@
 Usage:
 
   skice new <project_directory_path> [--context (webgl | 2d)]
+
+Options:
+
+  --context (webgl | 2d)  Specifies which canvas context to use. The default is webgl.

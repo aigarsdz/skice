@@ -1,4 +1,3 @@
-import { min } from 'math'
 import { exportVideo, exportPNG } from 'exporter'
 
 class CanvasSettings {
@@ -65,7 +64,7 @@ class CanvasSettings {
     } else if (this.#width < this.#initialWidth) {
       const widthDifference = window.innerWidth - this.#width
 
-      this.#width = min(this.#width + widthDifference, this.#initialWidth)
+      this.#width = Math.min(this.#width + widthDifference, this.#initialWidth)
     }
 
     if (this.#height > window.innerHeight || this.#fullHeight) {
@@ -73,7 +72,7 @@ class CanvasSettings {
     } else if (this.#height < this.#initialHeight) {
       const heightDifference = window.innerHeight - this.#height
 
-      this.#height = min(this.#height + heightDifference, this.#initialHeight)
+      this.#height = Math.min(this.#height + heightDifference, this.#initialHeight)
     }
 
     this.updateAspectRatio()
