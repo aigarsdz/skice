@@ -9,6 +9,7 @@ const Command = require('../src/command')
 const { outputHelp, outputUnavailableCommand } = require('../src/helper')
 const ProjectManager = require('../src/project_manager')
 const Server = require('../src/server')
+const Updater = require('../src/updater')
 
 const command = new Command(process.argv)
 
@@ -50,4 +51,10 @@ if (command.needsServer) {
   if (command.invokesBrowser) {
     openURL(`http://localhost:${command.portNumber}`)
   }
+}
+
+if (command.needsUpgrade) {
+  const updater = new Updater()
+
+  updater.upgradeFrom(command.upgradePathOrigin, command.upgradePath, command.canvasContext)
 }

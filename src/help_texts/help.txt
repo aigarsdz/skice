@@ -5,6 +5,8 @@ Usage:
 
 Commands:
 
-  help, -h, --help         Outputs help text.
-  version, -v, --version   Outputs the version number.
-  new                      Creates a new sketch project.
+  help, -h, --help [command]  Outputs help text.
+  version, -v, --version      Outputs the version number.
+  new                         Creates a new sketch project.
+  run                         Starts a local server to serve the sketch project.
+  upgrade                     Upgrades the project form an older version.

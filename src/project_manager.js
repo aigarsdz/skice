@@ -13,6 +13,7 @@ class ProjectManager {
   directoryPath;
   projectName;
   canvasContext;
+  sketchFilePath;
 
   #errors = []
 
@@ -99,10 +100,12 @@ class ProjectManager {
   #copySketchFile () {
     const templateDirectoryPath = path.join(__dirname, 'templates')
 
+    this.sketchFilePath = path.join(this.directoryPath, 'js', `${this.projectName}.js`)
+
     this.#copyContextSpecificFile(
       path.join(templateDirectoryPath, 'webgl_sketch.js'),
       path.join(templateDirectoryPath, '2d_sketch.js'),
-      path.join(this.directoryPath, 'js', `${this.projectName}.js`)
+      this.sketchFilePath
     )
   }
 

@@ -1,0 +1,11 @@
+
+Usage:
+
+  run [options...]
+
+Options:
+
+  --port <port_number>  Changes the port number of the local server. The default is 3000.
+                        IMPORTANT: make sure to update the socket connection in index.html file
+                        after changing the port number!
+  --no-browser          Prevents automatically launching the browser.

@@ -1,0 +1,10 @@
+
+Usage:
+
+   upgrade [file_or_directory_path] [options...]
+
+Options:
+
+  --from <previous_skice_version_number>  skice version used to create the chosen sketch project.
+  --context (webgl | 2d)                  The canvas context of the chosen sketch project.
+                                          Necessary only when upgrading from 1.4.1.

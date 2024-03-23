@@ -1,3 +1,4 @@
 {
-  "skice_version": "VERSION_NUMBER"
+  "skice_version": "VERSION_NUMBER",
+  "portNumber": 3000
 }

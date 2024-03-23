@@ -10,19 +10,21 @@ const PARSE_RESULTS = {
 class Command {
   #AVAILABLE_COMMANDS = {
     help: this.#parseHelp,
-    '-h': this.#parseHelp,
-    '--help': this.#parseHelp,
     version: this.#parseVersion,
-    '-v': this.#parseVersion,
-    '--version': this.#parseVersion,
-    'new': this.#parseNewProject,
-    'run': this.#parseRun
+    new: this.#parseNewProject,
+    run: this.#parseRun,
+    upgrade: this.#parseUpgrade
   }
 
   #AVAILABLE_OPTIONS = {
+    '-h': this.#parseHelp,
+    '--help': this.#parseHelp,
+    '-v': this.#parseVersion,
+    '--version': this.#parseVersion,
     '--context': this.#parseContext,
     '--port': this.#parsePortNumber,
-    '--no-browser': this.#disableBrowser
+    '--no-browser': this.#disableBrowser,
+    '--from': this.#parseUpgradePathOrigin
   }
 
   needsHelp = false
@@ -37,6 +39,9 @@ class Command {
   invokesBrowser = true
   currentDirtectory;
   portNumber = 3000
+  needsUpgrade = false
+  upgradePath = 'currentDirectory'
+  upgradePathOrigin;
 
   constructor (argv) {
     const [nodeExecutable, execulatbleFile, ...callArguments] = argv
@@ -148,6 +153,42 @@ class Command {
 
   #disableBrowser () {
     this.invokesBrowser = false
+
+    return PARSE_RESULTS.proceed
+  }
+
+  #parseUpgrade (_, callArguments) {
+    const ct = new ColourfulText()
+    const upgradePath = callArguments.shift()
+
+    this.needsUpgrade = true
+
+    if (upgradePath.startsWith('-')) {
+      callArguments.unshift(upgradePath)
+    } else if (fs.existsSync(upgradePath)) {
+      this.upgradePath = upgradePath
+    } else {
+      this.needsUpgrade = false
+
+      console.error(ct.red(`\n${upgradePath} does not exist.\n`).value)
+
+      return PARSE_RESULTS.terminate
+    }
+
+    return PARSE_RESULTS.proceed
+  }
+
+  #parseUpgradePathOrigin (_, callArguments) {
+    const ct = new ColourfulText()
+    const versionNumber = callArguments.shift()
+
+    if (versionNumber) {
+      this.upgradePathOrigin = versionNumber
+    } else {
+      console.error(ct.red("\nThe current version number of the project is missing.\n").value)
+
+      return PARSE_RESULTS.terminate
+    }
 
     return PARSE_RESULTS.proceed
   }
