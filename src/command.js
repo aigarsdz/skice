@@ -131,7 +131,13 @@ class Command {
     const configFilePath = path.join(this.currentDirtectory, 'skice.config.json')
 
     if (fs.existsSync(configFilePath)) {
+      const config = require(configFilePath)
+
       this.needsServer = true
+
+      if (config.portNumber) {
+        this.portNumber = config.portNumber
+      }
     } else {
       console.error(ct.red("\nThe current directory is not a skice project.\n").value)
     }
