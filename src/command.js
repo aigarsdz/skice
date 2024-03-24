@@ -30,7 +30,6 @@ class Command {
   needsHelp = false
   helpTopic;
   notAvailable = false
-  name;
   needsVersionNumber = false
   needsProject = false
   projectDirectoryPath;
