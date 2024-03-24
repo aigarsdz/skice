@@ -115,7 +115,12 @@ This module provides convenience function for working with network requests.
 Available functions:
 - importPlainText(url: string): Promise<string> - loads a plain text file. It can be useful for importing GLSL files.
 
-### Upgrading from 1.3.2 to 1.4.x
+## Upgrading from 1.4.1 to 2.x
+
+If you have a sketch file created by `skice` 1.4.1 or an older file that has been updated to work with
+1.4.1, it can be easily updated to work with 2.x using [`upgrade` command](#upgrade).
+
+## Upgrading from 1.3.2 to 1.4.1
 
 Some of the functionality has been moved from the HTML template to the sketch file in preparation for
 version 2.0.0. Refer to the updated [Canvas 2D](templates/2d_sketch.js) and [WebGL](templates/webgl_sketch.js)
