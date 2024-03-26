@@ -60,7 +60,6 @@ window.addEventListener('resize', () => {
 
   camera.updateProjectionMatrix()
   renderer.setSize(canvasSettings.width, canvasSettings.height)
-  animate()
 })
 
 animate()
