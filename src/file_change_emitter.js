@@ -1,7 +1,7 @@
 const EventEmitter = require('node:events')
 
 class FileChangeEmitter extends EventEmitter {
-  changedFiles = new Set()
+  changedFiles = []
 
   #timeoutID;
 
@@ -10,12 +10,14 @@ class FileChangeEmitter extends EventEmitter {
       clearTimeout(this.#timeoutID)
     }
 
-    this.changedFiles.add(filePath)
+    if (!this.changedFiles.includes(filePath)) {
+      this.changedFiles.push(filePath)
+    }
 
     this.#timeoutID = setTimeout(() => {
-      this.emit('change', Array.from(this.changedFiles))
-      this.changedFiles.clear()
-    }, 500)
+      this.emit('change', this.changedFiles)
+      this.changedFiles = []
+    }, 400)
   }
 }
 

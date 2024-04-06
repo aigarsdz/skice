@@ -56,7 +56,7 @@ class Server {
       console.info(ct.default("\nServer running at ").cyan(`http://localhost:${this.#command.portNumber}\n`).value)
     })
 
-    this.#watchFileForChanges()
+    this.#watchFilesForChanges()
   }
 
   #respondWithRoot(request, response) {
@@ -151,7 +151,7 @@ class Server {
     return crypto.createHash('sha1').update(key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11', 'binary').digest('base64')
   }
 
-  #watchFileForChanges() {
+  #watchFilesForChanges() {
     this.#fileWatcher = fs.watch(this.#command.currentDirtectory, { recursive: true }, (event, filePath) => {
       if (filePath && event === 'change' && this.#filesAreBeingWatched) {
         this.#fileChangeEmitter.addChange(filePath)
