@@ -13,7 +13,7 @@ const Updater = require('../src/updater')
 
 const command = new Command(process.argv)
 
-function openURL (url) {
+function openURL(url) {
   if (platform() === 'win32') {
     exec(`cmd /c start ${url}`)
   } else if (platform() === 'darwin') {

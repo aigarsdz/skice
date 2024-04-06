@@ -13,7 +13,7 @@ class Updater {
   filePath;
   canvasContext
 
-  upgradeFrom (versionNumber, filePath, canvasContext) {
+  upgradeFrom(versionNumber, filePath, canvasContext) {
     this.versionNumber = versionNumber
     this.filePath = filePath
     this.canvasContext = canvasContext
@@ -25,7 +25,7 @@ class Updater {
     }
   }
 
-  #upgradeFrom141 () {
+  #upgradeFrom141() {
     const ct = new ColourfulText()
 
     if (fs.existsSync(this.filePath)) {

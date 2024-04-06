@@ -4,69 +4,69 @@ class ColourfulText {
   #value = ''
   #useBold = false
 
-  get value () {
+  get value() {
     return this.#value
   }
 
-  default (text) {
+  default(text) {
     this.#value += text
 
     return this
   }
 
-  black (text) {
+  black(text) {
     return this.#colourIn(text, 'black')
   }
 
-  red (text) {
+  red(text) {
     return this.#colourIn(text, 'red')
   }
 
-  green (text) {
+  green(text) {
     return this.#colourIn(text, 'green')
   }
 
-  yellow (text) {
+  yellow(text) {
     return this.#colourIn(text, 'yellow')
   }
 
-  blue (text) {
+  blue(text) {
     return this.#colourIn(text, 'blue')
   }
 
-  magenta (text) {
+  magenta(text) {
     return this.#colourIn(text, 'magenta')
   }
 
-  cyan (text) {
+  cyan(text) {
     return this.#colourIn(text, 'cyan')
   }
 
-  white (text) {
+  white(text) {
     return this.#colourIn(text, 'white')
   }
 
-  gray (text) {
+  gray(text) {
     return this.#colourIn(text, 'gray')
   }
 
-  bold () {
+  bold() {
     this.#useBold = true
 
     return this
   }
 
-  clear () {
+  clear() {
     this.#value = ''
 
     return this
   }
 
-  toString () {
+  toString() {
     return this.value
   }
 
-  #colourIn (text, colour) {
+  #colourIn(text, colour) {
     let colourName = colour
 
     if (this.#useBold) {

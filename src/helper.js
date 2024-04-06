@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const ColourfulText = require('./colourful_text')
 
-function getHelpFilePath (topic) {
+function getHelpFilePath(topic) {
   let helpFilePath = path.join(__dirname, 'help_texts', 'help.txt')
 
   if (topic) {
@@ -16,7 +16,7 @@ function getHelpFilePath (topic) {
   return helpFilePath
 }
 
-function outputHelp (topic) {
+function outputHelp(topic) {
   const helpFilePath = getHelpFilePath(topic)
 
   try {
@@ -28,7 +28,7 @@ function outputHelp (topic) {
   }
 }
 
-function outputUnavailableCommand (commandName) {
+function outputUnavailableCommand(commandName) {
   const ct = new ColourfulText()
 
   console.warn(

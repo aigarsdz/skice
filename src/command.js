@@ -42,13 +42,13 @@ class Command {
   upgradePath = 'currentDirectory'
   upgradePathOrigin;
 
-  constructor (argv) {
+  constructor(argv) {
     const [nodeExecutable, execulatbleFile, ...callArguments] = argv
 
     this.#parseArguments(callArguments)
   }
 
-  #parseArguments (callArguments) {
+  #parseArguments(callArguments) {
     let argument
 
     while (callArguments.length > 0) {
@@ -80,7 +80,7 @@ class Command {
     }
   }
 
-  #parseHelp (_, callArguments) {
+  #parseHelp(_, callArguments) {
     const command = callArguments.shift()
 
     this.needsHelp = true
@@ -92,13 +92,13 @@ class Command {
     return PARSE_RESULTS.terminate
   }
 
-  #parseVersion () {
+  #parseVersion() {
     this.needsVersionNumber = true
 
     return PARSE_RESULTS.terminate
   }
 
-  #parseNewProject (_, callArguments) {
+  #parseNewProject(_, callArguments) {
     const ct = new ColourfulText()
     const projectDirectoryPath = callArguments.shift()
 
@@ -114,7 +114,7 @@ class Command {
     return PARSE_RESULTS.proceed
   }
 
-  #parseContext (argument, callArguments) {
+  #parseContext(argument, callArguments) {
     const context = callArguments.shift()
 
     if (context) {
@@ -122,7 +122,7 @@ class Command {
     }
   }
 
-  #parseRun (argument, callArguments) {
+  #parseRun(argument, callArguments) {
     const ct = new ColourfulText()
 
     this.currentDirtectory = process.cwd()
@@ -144,7 +144,7 @@ class Command {
     return PARSE_RESULTS.proceed
   }
 
-  #parsePortNumber (argument, callArguments) {
+  #parsePortNumber(argument, callArguments) {
     const portNumber = callArguments.shift()
 
     if (portNumber) {
@@ -156,13 +156,13 @@ class Command {
     }
   }
 
-  #disableBrowser () {
+  #disableBrowser() {
     this.invokesBrowser = false
 
     return PARSE_RESULTS.proceed
   }
 
-  #parseUpgrade (_, callArguments) {
+  #parseUpgrade(_, callArguments) {
     const ct = new ColourfulText()
     const upgradePath = callArguments.shift()
 
@@ -183,7 +183,7 @@ class Command {
     return PARSE_RESULTS.proceed
   }
 
-  #parseUpgradePathOrigin (_, callArguments) {
+  #parseUpgradePathOrigin(_, callArguments) {
     const ct = new ColourfulText()
     const versionNumber = callArguments.shift()
 

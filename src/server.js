@@ -27,7 +27,7 @@ class Server {
   #fileChangeEmitter = new FileChangeEmitter()
   #filesAreBeingWatched = false
 
-  constructor (command) {
+  constructor(command) {
     this.#command = command
     this.#server = http.createServer((request, response) => {
       if (request.url == '/') {
@@ -48,7 +48,7 @@ class Server {
     this.#fileChangeEmitter.on('change', this.#sendReloadMessage.bind(this))
   }
 
-  start () {
+  start() {
     const ct = new ColourfulText()
 
     this.#addWebSocketConnection()
@@ -59,7 +59,7 @@ class Server {
     this.#watchFileForChanges()
   }
 
-  #respondWithRoot (request, response) {
+  #respondWithRoot(request, response) {
     const ct = new ColourfulText()
     let payload = ''
 
@@ -72,7 +72,7 @@ class Server {
     this.#respondWithOK(request, response, payload, SUPPORTED_FILE_TYPES.html)
   }
 
-  #respondWithFile (request, response) {
+  #respondWithFile(request, response) {
     const fileExtenstion = path.extname(request.url).slice(1)
     const contentType = SUPPORTED_FILE_TYPES[fileExtenstion] || SUPPORTED_FILE_TYPES.txt
     const filePath = path.join(this.#command.currentDirtectory, request.url)
@@ -90,7 +90,7 @@ class Server {
     }
   }
 
-  #respondWithOK (request, response, payload, contentType) {
+  #respondWithOK(request, response, payload, contentType) {
     const ct = new ColourfulText()
 
     console.info(ct.bold().green('GET ').default(request.url).value)
@@ -101,7 +101,7 @@ class Server {
     response.end(payload)
   }
 
-  #respondWithNotFound (request, response) {
+  #respondWithNotFound(request, response) {
     const ct = new ColourfulText()
 
     console.info(ct.bold().red('GET ').default(request.url).value)
@@ -112,7 +112,7 @@ class Server {
     response.end('404: File not found')
   }
 
-  #addWebSocketConnection () {
+  #addWebSocketConnection() {
     this.#server.on('upgrade', (request, socket) => {
       if (request.headers['upgrade'] !== 'websocket') {
         socket.end('HTTP/1.1 400 Bad request')
@@ -147,11 +147,11 @@ class Server {
     })
   }
 
-  #generateSocketKey (key) {
+  #generateSocketKey(key) {
     return crypto.createHash('sha1').update(key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11', 'binary').digest('base64')
   }
 
-  #watchFileForChanges () {
+  #watchFileForChanges() {
     this.#fileWatcher = fs.watch(this.#command.currentDirtectory, { recursive: true }, (event, filePath) => {
       if (filePath && event === 'change' && this.#filesAreBeingWatched) {
         this.#fileChangeEmitter.addChange(filePath)
@@ -161,7 +161,7 @@ class Server {
     this.#filesAreBeingWatched = true
   }
 
-  #sendReloadMessage () {
+  #sendReloadMessage() {
     const ct = new ColourfulText()
     const outdatedSockets = []
 
@@ -175,7 +175,7 @@ class Server {
     outdatedSockets.forEach(socket => this.#closeSocket(socket))
   }
 
-  #constructSocketMessage (message) {
+  #constructSocketMessage(message) {
     const json = JSON.stringify(message)
     const byteLength = Buffer.byteLength(json)
     const lengthByteCount = byteLength < 126 ? 0 : 2
@@ -198,10 +198,11 @@ class Server {
     return buffer
   }
 
-  #closeSocket (socket) {
+  #closeSocket(socket) {
     const socketIndex = this.#sockets.findIndex(openSocket => openSocket === socket)
 
     if (socketIndex > -1) {
+      this.#sockets[socketIndex].close()
       this.#sockets.splice(socketIndex, 1)
     }
   }

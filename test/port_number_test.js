@@ -9,13 +9,13 @@ const executablePath = path.resolve(__dirname, '../bin/index.js')
 const outputDirectoryPath1 = path.resolve(__dirname, 'port_number_output_1')
 const outputDirectoryPath2 = path.resolve(__dirname, 'port_number_output_2')
 
-function sleep (time) {
+function sleep(time) {
   return new Promise(resolve => {
     setTimeout(resolve, time)
   })
 }
 
-function getResponseCode (url) {
+function getResponseCode(url) {
   return new Promise((resolve, reject) => {
     http.get(url, response => resolve(response.statusCode)).on('error', reject)
   })

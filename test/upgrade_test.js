@@ -8,7 +8,7 @@ const executablePath = path.resolve(__dirname, '../bin/index.js')
 const outputDirectoryPath = path.resolve(__dirname, 'upgrade_output')
 const skice141SketchPath = path.join(outputDirectoryPath, 'sketch.js')
 
-function sleep (time) {
+function sleep(time) {
   return new Promise(resolve => {
     setTimeout(resolve, time)
   })

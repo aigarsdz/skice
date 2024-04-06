@@ -17,7 +17,7 @@ class ProjectManager {
 
   #errors = []
 
-  create (directoryPath, canvasContext) {
+  create(directoryPath, canvasContext) {
     this.directoryPath = directoryPath
     this.projectName = path.basename(directoryPath)
     this.canvasContext = canvasContext
@@ -55,7 +55,7 @@ class ProjectManager {
     }
   }
 
-  #getDirectoryStatus () {
+  #getDirectoryStatus() {
     try {
       if (fs.existsSync(this.directoryPath)) {
         const directoryContent = fs.readdirSync(this.directoryPath)
@@ -75,19 +75,19 @@ class ProjectManager {
     }
   }
 
-  #copyTemplateFiles () {
+  #copyTemplateFiles() {
     this.#copyConfigFile()
     this.#copyIndexFile()
     this.#copySketchFile()
   }
 
-  #copyConfigFile () {
+  #copyConfigFile() {
     const templateDirectoryPath = path.join(__dirname, 'templates')
 
     this.#copyFile(path.join(templateDirectoryPath, 'skice.config.json'), path.join(this.directoryPath, 'skice.config.json'))
   }
 
-  #copyIndexFile () {
+  #copyIndexFile() {
     const templateDirectoryPath = path.join(__dirname, 'templates')
 
     this.#copyContextSpecificFile(
@@ -97,7 +97,7 @@ class ProjectManager {
     )
   }
 
-  #copySketchFile () {
+  #copySketchFile() {
     const templateDirectoryPath = path.join(__dirname, 'templates')
 
     this.sketchFilePath = path.join(this.directoryPath, 'js', `${this.projectName}.js`)
@@ -109,7 +109,7 @@ class ProjectManager {
     )
   }
 
-  #copyFile (sourcePath, targetPath) {
+  #copyFile(sourcePath, targetPath) {
     const ct = new ColourfulText()
 
     try {
@@ -121,7 +121,7 @@ class ProjectManager {
     }
   }
 
-  #copyContextSpecificFile (webGLSourcePath, canvas2DSourcePath, targetPath) {
+  #copyContextSpecificFile(webGLSourcePath, canvas2DSourcePath, targetPath) {
     const ct = new ColourfulText()
 
     try {
@@ -137,7 +137,7 @@ class ProjectManager {
     }
   }
 
-  #updateTemplateFiles () {
+  #updateTemplateFiles() {
     const packageConfiguration = require('../package.json')
 
     const ct = new ColourfulText()
@@ -162,7 +162,7 @@ class ProjectManager {
     }
   }
 
-  #copyPublicFiles () {
+  #copyPublicFiles() {
     const ct = new ColourfulText()
     const publicDirectoryPath = path.resolve(__dirname, '..', 'public')
 

@@ -48,7 +48,7 @@ scene.add(ambientLight)
 // scene.add(new THREE.AxesHelper(5))
 // scene.add(new THREE.DirectionalLightHelper(light, 0.25, 0x000000))
 
-function animate () {
+function animate() {
   controls.update()
   renderer.render(scene, camera)
   requestAnimationFrame(animate)

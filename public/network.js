@@ -1,4 +1,4 @@
-export async function importPlainText (url) {
+export async function importPlainText(url) {
   try {
     const response = await fetch(url)
     const textResponse = await response.text()

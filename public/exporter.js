@@ -1,4 +1,4 @@
-export function exportVideo (canvas, duration, type) {
+export function exportVideo(canvas, duration, type) {
   const chunks = []
   const stream = canvas.captureStream()
   const recorder = new MediaRecorder(stream)
@@ -27,7 +27,7 @@ export function exportVideo (canvas, duration, type) {
   setTimeout(() => recorder.stop(), duration)
 }
 
-export function exportPNG (canvas, { renderer = null, scene = null, camera = null }) {
+export function exportPNG(canvas, { renderer = null, scene = null, camera = null }) {
   const link = document.createElement('a')
 
   if (renderer && scene && camera) {

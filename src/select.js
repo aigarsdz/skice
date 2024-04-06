@@ -12,13 +12,13 @@ class Select {
   #rendered = false
   #selectedOptionIndex = 0
 
-  constructor (label, options, multiple = false) {
+  constructor(label, options, multiple = false) {
     this.label = label
     this.options = options
     this.multiple = multiple
   }
 
-  prompt (callback) {
+  prompt(callback) {
     this.callback = callback
 
     process.stdout.write(`${this.label}\n`)
@@ -29,7 +29,7 @@ class Select {
     process.stdin.resume()
   }
 
-  #handleKeyPress (_, key) {
+  #handleKeyPress(_, key) {
     if (key) {
       if (key.name == 'up' && this.#selectedOptionIndex > 0) {
         this.#selectedOptionIndex--
@@ -53,7 +53,7 @@ class Select {
     }
   }
 
-  #finish (saveChanges = true) {
+  #finish(saveChanges = true) {
     process.stdin.setRawMode(false)
     process.stdin.pause()
 
@@ -67,7 +67,7 @@ class Select {
     process.stdin.removeListener('keypress', this.#handleKeyPress);
   }
 
-  #render () {
+  #render() {
     const ct = new ColourfulText()
 
     if (this.#rendered) {
@@ -99,7 +99,7 @@ class Select {
     this.#rendered = true
   }
 
-  #eraseLines () {
+  #eraseLines() {
     const optionCount = this.options.length
     let command = ''
 

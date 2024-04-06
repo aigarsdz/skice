@@ -10,7 +10,7 @@ const canvas2dOutputDirectoryPath = path.resolve(__dirname, 'context_output_2')
 const webGLTemplatePath = path.resolve(__dirname, '../src/templates/webgl_sketch.js')
 const canvas2dTemplatePath = path.resolve(__dirname, '../src/templates/2d_sketch.js')
 
-function sleep (time) {
+function sleep(time) {
   return new Promise(resolve => {
     setTimeout(resolve, time)
   })

@@ -5,7 +5,7 @@ class FileChangeEmitter extends EventEmitter {
 
   #timeoutID;
 
-  addChange (filePath) {
+  addChange(filePath) {
     if (this.#timeoutID) {
       clearTimeout(this.#timeoutID)
     }

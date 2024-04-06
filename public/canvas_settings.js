@@ -11,9 +11,9 @@ class CanvasSettings {
   aspectRatio = 1
   exportAs = 'image'
   duration = 5000
-  canvasContext = this.constructor.CONTEXT.webgl
+  canvasContext = 'webgl'
 
-  constructor (context) {
+  constructor(context) {
     if (context) {
       this.canvasContext = context
     }
@@ -45,13 +45,6 @@ class CanvasSettings {
     this.#fullHeight = false
 
     this.updateAspectRatio()
-  }
-
-  static get CONTEXT () {
-    return {
-      canvas2d: '2d',
-      webgl: 'webgl'
-    }
   }
 
   updateAspectRatio () {
@@ -87,7 +80,7 @@ class CanvasSettings {
           exportVideo(canvas, this.duration, this.exportAs)
         } else {
           try {
-            if (this.canvasContext === CanvasSettings.CONTEXT.webgl) {
+            if (this.canvasContext === 'webgl') {
               exportPNG(canvas, { renderer, scene, camera })
             } else {
               exportPNG(canvas)

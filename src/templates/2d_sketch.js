@@ -1,7 +1,7 @@
 import CanvasSettings from 'canvas_settings'
 
 const canvas = document.getElementById('sketch_canvas')
-const canvasSettings = new CanvasSettings(CanvasSettings.CONTEXT.canvas2d)
+const canvasSettings = new CanvasSettings('2d')
 
 // canvasSettings.width = 1080
 // canvasSettings.height = 1080
@@ -13,12 +13,12 @@ canvasSettings.enableExport(canvas)
 // NOTE: this variable can be used for elapsed time calculations in the animate function.
 // const startTime = Date.now()
 
-function resizeCanvas () {
+function resizeCanvas() {
   canvas.width = canvasSettings.width
   canvas.height = canvasSettings.height
 }
 
-function draw () {
+function draw() {
   // const elapsedTime = (Date.now() - startTime) / 1000
 
   context.fillStyle = 'white'

@@ -11,7 +11,7 @@ const outputConfigPath = path.resolve(outputDirectoryPath, 'skice.config.json')
 const outputIndexPath = path.resolve(outputDirectoryPath, 'index.html')
 const outputJSPath = path.resolve(outputDirectoryPath, 'js')
 
-function sleep (time) {
+function sleep(time) {
   return new Promise(resolve => {
     setTimeout(resolve, time)
   })
