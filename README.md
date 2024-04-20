@@ -69,7 +69,37 @@ Upgrades the project from an older version.
 skice upgrade /path/to/sketch_project --from 1.4.1 --context webgl
 ```
 
-## Settings
+## Configuration
+
+Every project has a **skice.config.json** file in its root that you can use to change the configuration.
+
+### portNumber
+
+Specifies the port number that is used by the local server. It can be overwritten with the
+command-line option `--port`.
+
+### watch
+
+skice will automatically reload the browser when files in the project directory change.
+It's watching recursively all the files by default, but since it's using Node's file watcher API,
+it has some [caveats](https://nodejs.org/docs/latest/api/fs.html#caveats) that might prevent this
+functionality from working properly on your system. One way to mitigate certain issues is to add a
+list of files that need to be watched using `watch` configuration option.
+
+```json
+{
+  "skiceVersion": "2.1.0",
+  "portNumber": 3000,
+  "watch": [
+    "index.html",
+    "js/skice.js"
+  ]
+}
+```
+
+The file paths must be relative to the root directory.
+
+## Canvas settings
 
 `skice` projects have access to `CanvasSettings` class which provides some useful functionality
 like automatic resizing and image export.

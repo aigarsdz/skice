@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const ColourfulText = require('./colourful_text')
+const Configuration = require('./configuration')
 
 const PARSE_RESULTS = {
   proceed: 'proceed',
@@ -36,11 +37,11 @@ class Command {
   canvasContext = 'webgl'
   needsServer = false
   invokesBrowser = true
-  currentDirtectory;
-  portNumber = 3000
+  portNumber = Configuration.portNumber
   needsUpgrade = false
   upgradePath = 'currentDirectory'
   upgradePathOrigin;
+  currentDirtectory = process.cwd()
 
   constructor(argv) {
     const [nodeExecutable, execulatbleFile, ...callArguments] = argv
@@ -125,20 +126,12 @@ class Command {
   #parseRun(argument, callArguments) {
     const ct = new ColourfulText()
 
-    this.currentDirtectory = process.cwd()
-
-    const configFilePath = path.join(this.currentDirtectory, 'skice.config.json')
-
-    if (fs.existsSync(configFilePath)) {
-      const config = require(configFilePath)
-
-      this.needsServer = true
-
-      if (config.portNumber) {
-        this.portNumber = config.portNumber
-      }
-    } else {
+    if (Configuration.missing) {
       console.error(ct.red("\nThe current directory is not a skice project.\n").value)
+
+      return PARSE_RESULTS.terminate
+    } else {
+      this.needsServer = true
     }
 
     return PARSE_RESULTS.proceed
@@ -152,7 +145,7 @@ class Command {
     }
 
     if (isNaN(this.portNumber)) {
-      this.portNumber = 3000
+      this.portNumber = Configuration.portNumber
     }
   }
 

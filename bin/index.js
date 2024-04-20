@@ -5,11 +5,14 @@ const path = require('path')
 const { platform } = require('os')
 const { exec } = require('child_process')
 
+const Configuration = require('../src/configuration')
 const Command = require('../src/command')
 const { outputHelp, outputUnavailableCommand } = require('../src/helper')
 const ProjectManager = require('../src/project_manager')
 const Server = require('../src/server')
 const Updater = require('../src/updater')
+
+Configuration.load()
 
 const command = new Command(process.argv)
 

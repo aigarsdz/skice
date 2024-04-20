@@ -4,6 +4,7 @@ const path = require('path')
 const crypto = require('crypto')
 const ColourfulText = require('./colourful_text')
 const FileChangeEmitter = require('./file_change_emitter')
+const Configuration = require('./configuration')
 
 const SUPPORTED_FILE_TYPES = {
   txt: 'text/plain',
@@ -20,15 +21,17 @@ const SUPPORTED_FILE_TYPES = {
 }
 
 class Server {
-  #command;
-  #server;
+  command
+
+  #server
   #sockets = []
-  #fileWatcher;
+  #directoryFileWatcher
+  #fileWatchers = []
   #fileChangeEmitter = new FileChangeEmitter()
   #filesAreBeingWatched = false
 
   constructor(command) {
-    this.#command = command
+    this.command = command
     this.#server = http.createServer((request, response) => {
       if (request.url == '/') {
         this.#respondWithRoot(request, response)
@@ -38,8 +41,12 @@ class Server {
     })
 
     process.on('SIGINT', () => {
-      if (this.#fileWatcher) {
-        this.#fileWatcher.close()
+      if (this.#directoryFileWatcher) {
+        this.#directoryFileWatcher.close()
+      }
+
+      for (const watcher of this.#fileWatchers) {
+        watcher.close()
       }
 
       process.exit(1)
@@ -52,8 +59,8 @@ class Server {
     const ct = new ColourfulText()
 
     this.#addWebSocketConnection()
-    this.#server.listen(this.#command.portNumber, 'localhost', () => {
-      console.info(ct.default("\nServer running at ").cyan(`http://localhost:${this.#command.portNumber}\n`).value)
+    this.#server.listen(this.command.portNumber, 'localhost', () => {
+      console.info(ct.default("\nServer running at ").cyan(`http://localhost:${this.command.portNumber}\n`).value)
     })
 
     this.#watchFilesForChanges()
@@ -64,7 +71,7 @@ class Server {
     let payload = ''
 
     try {
-      payload = fs.readFileSync(path.join(this.#command.currentDirtectory, 'index.html'))
+      payload = fs.readFileSync(path.join(this.command.currentDirtectory, 'index.html'))
     } catch (error) {
       console.error(error)
     }
@@ -75,7 +82,7 @@ class Server {
   #respondWithFile(request, response) {
     const fileExtenstion = path.extname(request.url).slice(1)
     const contentType = SUPPORTED_FILE_TYPES[fileExtenstion] || SUPPORTED_FILE_TYPES.txt
-    const filePath = path.join(this.#command.currentDirtectory, request.url)
+    const filePath = path.join(this.command.currentDirtectory, request.url)
 
     if (fs.existsSync(filePath)) {
       fs.readFile(filePath, (error, data) => {
@@ -152,13 +159,33 @@ class Server {
   }
 
   #watchFilesForChanges() {
-    this.#fileWatcher = fs.watch(this.#command.currentDirtectory, { recursive: true }, (event, filePath) => {
+    if (Configuration.watch) {
+      this.#watchIndividualFilesForChanges()
+    } else {
+      this.#watchDirectoryForChanges()
+    }
+
+    this.#filesAreBeingWatched = true
+  }
+
+  #watchIndividualFilesForChanges() {
+    for (const filePath of Configuration.watch) {
+      const packageFilePath = path.join(this.command.currentDirtectory, filePath)
+
+      this.#fileWatchers.push(fs.watch(packageFilePath, event => {
+        if (event === 'change' && this.#filesAreBeingWatched) {
+          this.#fileChangeEmitter.addChange(filePath)
+        }
+      }))
+    }
+  }
+
+  #watchDirectoryForChanges() {
+    this.#directoryFileWatcher = fs.watch(this.command.currentDirtectory, { recursive: true }, (event, filePath) => {
       if (filePath && event === 'change' && this.#filesAreBeingWatched) {
         this.#fileChangeEmitter.addChange(filePath)
       }
     })
-
-    this.#filesAreBeingWatched = true
   }
 
   #sendReloadMessage() {
@@ -202,7 +229,7 @@ class Server {
     const socketIndex = this.#sockets.findIndex(openSocket => openSocket === socket)
 
     if (socketIndex > -1) {
-      this.#sockets[socketIndex].close()
+      this.#sockets[socketIndex].destroy()
       this.#sockets.splice(socketIndex, 1)
     }
   }
