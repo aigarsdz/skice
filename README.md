@@ -4,7 +4,9 @@ A command-line tool for creative coding using HTML canvas. It helps to create an
 hosted projects for small experiments or large artworks. `skice` is heavily inspired by a similar but
 much more feature-rich tool called [cvanvas-sketch](https://github.com/mattdesl/canvas-sketch).
 Unlike "canvas-sketch" it doesn't provide an abstraction layer and the code you write is directly
-sent to the browser as is.
+sent to the browser as is. Starting with version 2 it also adapts 
+[file over app](https://stephango.com/file-over-app) phylosophy. That means a `skice` project does not
+rely on `skice` in any way. You can use it with any web server, any build tool or whatever else you choose.
 
 ## Installation
 
