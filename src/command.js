@@ -52,6 +52,12 @@ class Command {
   #parseArguments(callArguments) {
     let argument
 
+    if (callArguments.length == 0) {
+      this.needsHelp = true
+
+      return
+    }
+
     while (callArguments.length > 0) {
       argument = callArguments.shift()
 

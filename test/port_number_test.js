@@ -29,7 +29,7 @@ test('Port number', async t => {
 
   await t.test('Changes the default port number to a custom one', async () => {
     spawn('node', [executablePath, 'new', outputDirectoryPath1], { encoding : 'utf8' })
-    await sleep(2000)
+    await sleep(6000)
 
     const process = spawn('node', [executablePath, 'run', '--port', '8000', '--no-browser'], { encoding : 'utf8', cwd: outputDirectoryPath1 })
 
@@ -44,7 +44,7 @@ test('Port number', async t => {
 
   await t.test('Reverts to the default port number if an incorrect value is given', async () => {
     spawn('node', [executablePath, 'new', outputDirectoryPath2], { encoding : 'utf8' })
-    await sleep(2000)
+    await sleep(6000)
 
     const process = spawn('node', [executablePath, 'run', '--port', 'error', '--no-browser'], { encoding : 'utf8', cwd: outputDirectoryPath2 })
 

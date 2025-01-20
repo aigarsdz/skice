@@ -1,6 +1,6 @@
 {
   "name": "skice",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "A helper tool for local sketching using HTML canvas",
   "main": "index.js",
   "scripts": {

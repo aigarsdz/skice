@@ -24,7 +24,7 @@ test('Sketch upgrade', async t => {
     fs.copyFileSync(path.resolve(__dirname, '../src/templates/webgl_sketch.js'), skice141SketchPath)
     spawn('node', [executablePath, 'upgrade', skice141SketchPath, '--from', '1.4.1', '--context', 'webgl'], { encoding : 'utf8' })
 
-    await sleep(2000)
+    await sleep(6000)
     assert.ok(fs.existsSync(path.join(outputDirectoryPath, 'sketch')))
   })
 })

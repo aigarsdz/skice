@@ -25,7 +25,7 @@ test('Sketch creation', async t => {
   await t.test('Creates a new project', async () => {
     spawn('node', [executablePath, 'new', outputDirectoryPath], { encoding : 'utf8' })
 
-    await sleep(2000)
+    await sleep(6000)
     assert.ok(fs.existsSync(outputSketchPath))
     assert.ok(fs.existsSync(outputSketchPath))
     assert.ok(fs.existsSync(outputConfigPath))

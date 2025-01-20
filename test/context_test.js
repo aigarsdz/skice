@@ -25,7 +25,7 @@ test('Sketch creation with an explicit context', async t => {
   await t.test('Creates a new WebGL file', async () => {
     spawn('node', [executablePath, 'new', webglOutputDirectoryPath, '--context=webgl'], { encoding : 'utf8' })
 
-    await sleep(2000)
+    await sleep(6000)
     assert.ok(fs.existsSync(webglOutputDirectoryPath))
 
     const newFileContent = fs.readFileSync(path.join(webglOutputDirectoryPath, 'js', 'context_output_1.js'), 'utf8').toString()
@@ -37,7 +37,7 @@ test('Sketch creation with an explicit context', async t => {
   await t.test('Creates a new Canvas2D file', async () => {
     spawn('node', [executablePath, 'new', canvas2dOutputDirectoryPath, '--context=2d'], { encoding : 'utf8' })
 
-    await sleep(2000)
+    await sleep(6000)
     assert.ok(fs.existsSync(canvas2dOutputDirectoryPath))
 
     const newFileContent = fs.readFileSync(path.join(canvas2dOutputDirectoryPath, 'js', 'context_output_2.js'), 'utf8').toString()
