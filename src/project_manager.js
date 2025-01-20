@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const { execSync } = require("child_process")
 const ColourfulText = require('./colourful_text')
 
 const DIRECTORY_STATUS = {
@@ -51,6 +52,7 @@ class ProjectManager {
         this.#copyTemplateFiles()
         this.#updateTemplateFiles()
         this.#copyPublicFiles()
+        this.#installDependencies()
       }
     }
   }
@@ -79,6 +81,7 @@ class ProjectManager {
     this.#copyConfigFile()
     this.#copyIndexFile()
     this.#copySketchFile()
+    this.#copyPackageFile()
   }
 
   #copyConfigFile() {
@@ -107,6 +110,12 @@ class ProjectManager {
       path.join(templateDirectoryPath, '2d_sketch.js'),
       this.sketchFilePath
     )
+  }
+
+  #copyPackageFile() {
+    const templateDirectoryPath = path.join(__dirname, 'templates')
+
+    this.#copyFile(path.join(templateDirectoryPath, 'package.json'), path.join(this.directoryPath, 'package.json'))
   }
 
   #copyFile(sourcePath, targetPath) {
@@ -181,6 +190,12 @@ class ProjectManager {
     } catch (error) {
       console.error(error)
     }
+  }
+
+  #installDependencies() {
+    let output = execSync('npm install', { cwd: this.directoryPath })
+
+    console.info(output.toString())
   }
 }
 
