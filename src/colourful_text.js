@@ -1,4 +1,4 @@
-const { COLOURS } = require('./constants')
+const { styleText } = require('node:util')
 
 class ColourfulText {
   #value = ''
@@ -68,13 +68,15 @@ class ColourfulText {
 
   #colourIn(text, colour) {
     let colourName = colour
+    let style = [colour]
 
     if (this.#useBold) {
-      colourName = 'bold' + colourName.charAt(0).toUpperCase() + colourName.slice(1)
       this.#useBold = false
+
+      style.unshift('bold')
     }
 
-    this.#value += `${COLOURS[colourName]}${text}${COLOURS.reset}`
+    this.#value += styleText(style, text)
 
     return this
   }
