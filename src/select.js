@@ -1,6 +1,6 @@
-const readline = require('readline')
-const { ACTIONS } = require('./constants')
-const ColourfulText = require('./colourful_text')
+import readline from 'node:readline'
+import { ACTIONS } from './constants.js'
+import ColourfulText from './colourful_text.js'
 
 class Select {
   label = ''
@@ -127,4 +127,4 @@ class Select {
   }
 }
 
-module.exports = Select
+export default Select

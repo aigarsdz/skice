@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const { platform } = require('os')
-const { exec } = require('child_process')
+import fs from 'node:fs'
+import path from 'node:path'
+import { platform } from 'node:os'
+import { exec } from 'node:child_process'
 
-const Configuration = require('../src/configuration')
-const Command = require('../src/command')
-const { outputHelp, outputUnavailableCommand } = require('../src/helper')
-const ProjectManager = require('../src/project_manager')
-const Server = require('../src/server')
-const Updater = require('../src/updater')
+import Configuration from '../src/configuration.js'
+import Command from '../src/command.js'
+import { outputHelp, outputUnavailableCommand } from '../src/helper.js'
+import ProjectManager from '../src/project_manager.js'
+import Server from '../src/server.js'
+import Updater from '../src/updater.js'
+import packageConfiguration from '../package.json' with { type: 'json' }
 
-Configuration.load()
+await Configuration.load()
 
 const command = new Command(process.argv)
 
@@ -35,8 +36,6 @@ if (command.needsHelp) {
 }
 
 if (command.needsVersionNumber) {
-  const packageConfiguration = require('../package.json')
-
   console.log(`${packageConfiguration['name']} ${packageConfiguration['version']}`)
 }
 

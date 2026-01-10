@@ -1,11 +1,12 @@
-const { test } = require('node:test')
-const assert = require('node:assert/strict')
-const path = require('path')
-const { spawnSync } = require('child_process')
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import path from 'node:path'
+import { spawnSync } from 'node:child_process'
 
-const executablePath = path.resolve(__dirname, '../bin/index.js')
-const package = require('../package.json')
-const expectedOutput = `${package['name']} ${package['version']}\n`
+import packageConfiguration from '../package.json' with { type: 'json' }
+
+const executablePath = path.resolve('bin/index.js')
+const expectedOutput = `${packageConfiguration['name']} ${packageConfiguration['version']}\n`
 
 test('Outputs the version number with a shorthand option', () => {
   const process = spawnSync('node', [executablePath, '-v'], { encoding : 'utf8' })

@@ -1,10 +1,10 @@
-const http = require('http')
-const fs = require('fs')
-const path = require('path')
-const crypto = require('crypto')
-const ColourfulText = require('./colourful_text')
-const FileChangeEmitter = require('./file_change_emitter')
-const Configuration = require('./configuration')
+import http from 'node:http'
+import fs from 'node:fs'
+import path from 'node:path'
+import crypto from 'node:crypto'
+import ColourfulText from './colourful_text.js'
+import FileChangeEmitter from './file_change_emitter.js'
+import Configuration from './configuration.js'
 
 const SUPPORTED_FILE_TYPES = {
   txt: 'text/plain',
@@ -235,4 +235,4 @@ class Server {
   }
 }
 
-module.exports = Server
+export default Server

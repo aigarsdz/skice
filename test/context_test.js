@@ -1,14 +1,14 @@
-const { test } = require('node:test')
-const assert = require('node:assert/strict')
-const path = require('path')
-const fs = require('fs')
-const { spawn } = require('child_process')
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import path from 'node:path'
+import fs from 'node:fs'
+import { spawn } from 'node:child_process'
 
-const executablePath = path.resolve(__dirname, '../bin/index.js')
-const webglOutputDirectoryPath = path.resolve(__dirname, 'context_output_1')
-const canvas2dOutputDirectoryPath = path.resolve(__dirname, 'context_output_2')
-const webGLTemplatePath = path.resolve(__dirname, '../src/templates/webgl_sketch.js')
-const canvas2dTemplatePath = path.resolve(__dirname, '../src/templates/2d_sketch.js')
+const executablePath = path.resolve('bin/index.js')
+const webglOutputDirectoryPath = path.resolve('test/context_output_1')
+const canvas2dOutputDirectoryPath = path.resolve('test/context_output_2')
+const webGLTemplatePath = path.resolve('src/templates/webgl_sketch.js')
+const canvas2dTemplatePath = path.resolve('src/templates/2d_sketch.js')
 
 function sleep(time) {
   return new Promise(resolve => {

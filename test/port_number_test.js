@@ -1,13 +1,13 @@
-const { test } = require('node:test')
-const assert = require('node:assert/strict')
-const path = require('path')
-const fs = require('fs')
-const { spawn } = require('child_process')
-const http = require('http')
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import path from 'node:path'
+import fs from 'node:fs'
+import { spawn } from 'node:child_process'
+import http from 'node:http'
 
-const executablePath = path.resolve(__dirname, '../bin/index.js')
-const outputDirectoryPath1 = path.resolve(__dirname, 'port_number_output_1')
-const outputDirectoryPath2 = path.resolve(__dirname, 'port_number_output_2')
+const executablePath = path.resolve('bin/index.js')
+const outputDirectoryPath1 = path.resolve('test/port_number_output_1')
+const outputDirectoryPath2 = path.resolve('test/port_number_output_2')
 
 function sleep(time) {
   return new Promise(resolve => {

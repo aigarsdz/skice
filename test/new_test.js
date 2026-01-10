@@ -1,11 +1,11 @@
-const { test } = require('node:test')
-const assert = require('node:assert/strict')
-const path = require('path')
-const fs = require('fs')
-const { spawn } = require('child_process')
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import path from 'node:path'
+import fs from 'node:fs'
+import { spawn } from 'node:child_process'
 
-const executablePath = path.resolve(__dirname, '../bin/index.js')
-const outputDirectoryPath = path.resolve(__dirname, 'new_output')
+const executablePath = path.resolve('bin/index.js')
+const outputDirectoryPath = path.resolve('test/new_output')
 const outputSketchPath = path.resolve(outputDirectoryPath, 'js', 'new_output.js')
 const outputConfigPath = path.resolve(outputDirectoryPath, 'skice.config.json')
 const outputIndexPath = path.resolve(outputDirectoryPath, 'index.html')

@@ -1,7 +1,7 @@
-const path = require('path')
-const fs = require('fs')
-const ColourfulText = require('./colourful_text')
-const Configuration = require('./configuration')
+import path from 'node:path'
+import fs from 'node:fs'
+import ColourfulText from './colourful_text.js'
+import Configuration from './configuration.js'
 
 const PARSE_RESULTS = {
   proceed: 'proceed',
@@ -198,4 +198,4 @@ class Command {
   }
 }
 
-module.exports = Command
+export default Command

@@ -1,4 +1,4 @@
-const { styleText } = require('node:util')
+import { styleText } from 'node:util'
 
 class ColourfulText {
   #value = ''
@@ -83,4 +83,4 @@ class ColourfulText {
 }
 
 
-module.exports = ColourfulText
+export default ColourfulText

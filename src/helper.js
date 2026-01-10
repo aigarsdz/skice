@@ -1,12 +1,12 @@
-const path = require('path')
-const fs = require('fs')
-const ColourfulText = require('./colourful_text')
+import path from 'node:path'
+import fs from 'node:fs'
+import ColourfulText from './colourful_text.js'
 
 function getHelpFilePath(topic) {
-  let helpFilePath = path.join(__dirname, 'help_texts', 'help.txt')
+  let helpFilePath = path.join('src', 'help_texts', 'help.txt')
 
   if (topic) {
-    const topicHelpFilePath = path.join(__dirname, 'help_texts', `${topic}.txt`)
+    const topicHelpFilePath = path.join('src', 'help_texts', `${topic}.txt`)
 
     if (fs.existsSync(topicHelpFilePath)) {
       helpFilePath = topicHelpFilePath
@@ -16,7 +16,7 @@ function getHelpFilePath(topic) {
   return helpFilePath
 }
 
-function outputHelp(topic) {
+export function outputHelp(topic) {
   const helpFilePath = getHelpFilePath(topic)
 
   try {
@@ -28,7 +28,7 @@ function outputHelp(topic) {
   }
 }
 
-function outputUnavailableCommand(commandName) {
+export function outputUnavailableCommand(commandName) {
   const ct = new ColourfulText()
 
   console.warn(
@@ -40,6 +40,3 @@ function outputUnavailableCommand(commandName) {
       .value
     )
 }
-
-exports.outputHelp = outputHelp
-exports.outputUnavailableCommand = outputUnavailableCommand

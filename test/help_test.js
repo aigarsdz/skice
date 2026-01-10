@@ -1,11 +1,11 @@
-const { test } = require('node:test')
-const assert = require('node:assert/strict')
-const path = require('path')
-const fs = require('fs')
-const { spawnSync } = require('child_process')
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import path from 'node:path'
+import fs from 'node:fs'
+import { spawnSync } from 'node:child_process'
 
-const executablePath = path.resolve(__dirname, '../bin/index.js')
-const expectedOutput = fs.readFileSync(path.resolve(__dirname, '../src/help_texts/help.txt')).toString().trim()
+const executablePath = path.resolve('bin/index.js')
+const expectedOutput = fs.readFileSync(path.resolve('src/help_texts/help.txt')).toString().trim()
 
 test('Outputs help without any commands or options', () => {
   const process = spawnSync('node', [executablePath], { encoding : 'utf8' })

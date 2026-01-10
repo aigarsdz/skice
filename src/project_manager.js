@@ -1,7 +1,8 @@
-const fs = require('fs')
-const path = require('path')
-const { execSync } = require("child_process")
-const ColourfulText = require('./colourful_text')
+import fs from 'node:fs'
+import path from 'node:path'
+import { execSync } from 'node:child_process'
+import ColourfulText from './colourful_text.js'
+import packageConfiguration from '../package.json' with { type: 'json' }
 
 const DIRECTORY_STATUS = {
   missing: 'missing',
@@ -85,13 +86,13 @@ class ProjectManager {
   }
 
   #copyConfigFile() {
-    const templateDirectoryPath = path.join(__dirname, 'templates')
+    const templateDirectoryPath = path.join('src', 'templates')
 
     this.#copyFile(path.join(templateDirectoryPath, 'skice.config.json'), path.join(this.directoryPath, 'skice.config.json'))
   }
 
   #copyIndexFile() {
-    const templateDirectoryPath = path.join(__dirname, 'templates')
+    const templateDirectoryPath = path.join('src', 'templates')
 
     this.#copyContextSpecificFile(
       path.join(templateDirectoryPath, 'webgl_index.html'),
@@ -101,7 +102,7 @@ class ProjectManager {
   }
 
   #copySketchFile() {
-    const templateDirectoryPath = path.join(__dirname, 'templates')
+    const templateDirectoryPath = path.join('src', 'templates')
 
     this.sketchFilePath = path.join(this.directoryPath, 'js', `${this.projectName}.js`)
 
@@ -113,7 +114,7 @@ class ProjectManager {
   }
 
   #copyPackageFile() {
-    const templateDirectoryPath = path.join(__dirname, 'templates')
+    const templateDirectoryPath = path.join('src', 'templates')
 
     this.#copyFile(path.join(templateDirectoryPath, 'package.json'), path.join(this.directoryPath, 'package.json'))
   }
@@ -147,8 +148,6 @@ class ProjectManager {
   }
 
   #updateTemplateFiles() {
-    const packageConfiguration = require('../package.json')
-
     const ct = new ColourfulText()
     const configPath = path.join(this.directoryPath, 'skice.config.json')
     const htmlPath = path.join(this.directoryPath, 'index.html')
@@ -173,7 +172,7 @@ class ProjectManager {
 
   #copyPublicFiles() {
     const ct = new ColourfulText()
-    const publicDirectoryPath = path.resolve(__dirname, '..', 'public')
+    const publicDirectoryPath = 'public'
 
     try {
       const publicDirectoryContent = fs.readdirSync(publicDirectoryPath)
@@ -184,7 +183,7 @@ class ProjectManager {
 
           fs.copyFileSync(path.join(publicDirectoryPath, fileName), targetPath)
 
-          console.info(ct.clear().bold().green("create ").default(targetPath).value)
+          console.info(ct.clear().bold().green('create ').default(targetPath).value)
         }
       }
     } catch (error) {
@@ -199,4 +198,4 @@ class ProjectManager {
   }
 }
 
-module.exports = ProjectManager
+export default ProjectManager

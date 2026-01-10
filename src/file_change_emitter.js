@@ -1,4 +1,4 @@
-const EventEmitter = require('node:events')
+import EventEmitter from 'node:events'
 
 class FileChangeEmitter extends EventEmitter {
   changedFiles = []
@@ -21,4 +21,4 @@ class FileChangeEmitter extends EventEmitter {
   }
 }
 
-module.exports = FileChangeEmitter
+export default FileChangeEmitter

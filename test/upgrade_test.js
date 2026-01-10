@@ -1,11 +1,11 @@
-const { test } = require('node:test')
-const assert = require('node:assert/strict')
-const path = require('path')
-const fs = require('fs')
-const { spawn } = require('child_process')
+import { test } from 'node:test'
+import assert from 'node:assert/strict'
+import path from 'node:path'
+import fs from 'node:fs'
+import { spawn } from 'node:child_process'
 
-const executablePath = path.resolve(__dirname, '../bin/index.js')
-const outputDirectoryPath = path.resolve(__dirname, 'upgrade_output')
+const executablePath = path.resolve('bin/index.js')
+const outputDirectoryPath = path.resolve('test/upgrade_output')
 const skice141SketchPath = path.join(outputDirectoryPath, 'sketch.js')
 
 function sleep(time) {
@@ -21,7 +21,7 @@ test('Sketch upgrade', async t => {
 
   await t.test('Upgrade process from 1.4.1 to 2.0.0', async () => {
     fs.mkdirSync(outputDirectoryPath, { recursive: true })
-    fs.copyFileSync(path.resolve(__dirname, '../src/templates/webgl_sketch.js'), skice141SketchPath)
+    fs.copyFileSync(path.resolve('src/templates/webgl_sketch.js'), skice141SketchPath)
     spawn('node', [executablePath, 'upgrade', skice141SketchPath, '--from', '1.4.1', '--context', 'webgl'], { encoding : 'utf8' })
 
     await sleep(6000)

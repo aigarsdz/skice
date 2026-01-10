@@ -1,8 +1,8 @@
-const fs = require('fs')
-const path = require('path')
-const ColourfulText = require('./colourful_text')
-const ProjectManager = require('./project_manager')
-const Select = require('./select')
+import fs from 'node:fs'
+import path from 'node:path'
+import ColourfulText from './colourful_text.js'
+import ProjectManager from './project_manager.js'
+import Select from './select.js'
 
 class Updater {
   #UPGRADE_PATHS = {
@@ -61,4 +61,4 @@ class Updater {
   }
 }
 
-module.exports = Updater
+export default Updater
