@@ -8,7 +8,7 @@
     "test": "node --test"
   },
   "author": "Aigars Dzerviniks",
-  "license": "MIT",
+  "license": "MIT NON-AI",
   "bin": {
     "skice": "bin/index.js"
   },
