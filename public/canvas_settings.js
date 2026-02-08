@@ -1,26 +1,33 @@
 import { exportVideo, exportPNG } from 'exporter'
+import { calculateSizeInPX } from 'canvas_size'
 
 class CanvasSettings {
   #width = window.innerWidth
   #height = window.innerHeight
-  #initialWidth = window.innerWidth
-  #initialHeight = window.innerHeight
   #fullWidth = true
   #fullHeight = true
 
   aspectRatio = 1
   exportAs = 'image'
   duration = 5000
-  canvasContext = 'webgl'
+  canvasContextType = 'webgl'
+  dpi = 300
+  orientation = 'portrait'
+  elementWidth = 0
+  elementHeight = 0
 
-  constructor(context) {
-    if (context) {
-      this.canvasContext = context
+  constructor(contextType) {
+    if (contextType) {
+      this.canvasContextType = contextType
     }
 
+    this.updateElementSizes()
     this.updateAspectRatio()
 
-    window.addEventListener('resize', () => this.calculateSizes())
+    window.addEventListener('resize', () => {
+      this.updateElementSizes()
+      this.updateAspectRatio()
+    })
   }
 
   get width () {
@@ -29,9 +36,9 @@ class CanvasSettings {
 
   set width (value) {
     this.#width = value
-    this.#initialWidth = value
     this.#fullWidth = false
 
+    this.updateElementSizes()
     this.updateAspectRatio()
   }
 
@@ -41,34 +48,82 @@ class CanvasSettings {
 
   set height (value) {
     this.#height = value
-    this.#initialHeight = value
     this.#fullHeight = false
 
+    this.updateElementSizes()
     this.updateAspectRatio()
+  }
+
+  set size(sizeFormatName) {
+    let [width, height] = calculateSizeInPX(sizeFormatName, this.dpi)
+
+    if (this.orientation == 'landscape') {
+      [width, height] = [height, width]
+    }
+
+    this.#width = width
+    this.#height = height
+    this.#fullWidth = false
+    this.#fullHeight = false
+
+    this.updateElementSizes()
+    this.updateAspectRatio()
+  }
+
+  set ppi(value) {
+    this.dpi = value
   }
 
   updateAspectRatio () {
     this.aspectRatio = this.#width / this.#height
   }
 
-  calculateSizes () {
-    if (this.#width > window.innerWidth || this.#fullWidth) {
+  updateElementSizes() {
+    if (this.#fullWidth) {
       this.#width = window.innerWidth
-    } else if (this.#width < this.#initialWidth) {
-      const widthDifference = window.innerWidth - this.#width
-
-      this.#width = Math.min(this.#width + widthDifference, this.#initialWidth)
     }
 
-    if (this.#height > window.innerHeight || this.#fullHeight) {
+    if (this.#fullHeight) {
       this.#height = window.innerHeight
-    } else if (this.#height < this.#initialHeight) {
-      const heightDifference = window.innerHeight - this.#height
-
-      this.#height = Math.min(this.#height + heightDifference, this.#initialHeight)
     }
 
-    this.updateAspectRatio()
+    let width = this.elementWidth
+    let height = this.elementHeight
+
+    if (width == 0) {
+      width = this.#width
+    }
+
+    if (height == 0) {
+      height = this.#height
+    }
+
+    if (width < this.#width) {
+      width = this.#width
+    }
+
+    if (width > window.innerWidth) {
+      width = window.innerWidth
+    }
+
+    if (height < this.#height) {
+      height = this.#height
+    }
+
+    if (height > window.innerHeight) {
+      height = window.innerHeight
+    }
+
+    if (!this.#fullWidth && this.#width < this.#height) {
+      width = Math.round(height * this.aspectRatio)
+    }
+
+    if (!this.#fullHeight && this.#height < this.#width) {
+      height = Math.round(width / this.aspectRatio)
+    }
+
+    this.elementWidth = width
+    this.elementHeight = height
   }
 
   enableExport (canvas, renderer, scene, camera) {
@@ -80,7 +135,7 @@ class CanvasSettings {
           exportVideo(canvas, this.duration, this.exportAs)
         } else {
           try {
-            if (this.canvasContext === 'webgl') {
+            if (this.canvasContextType === 'webgl') {
               exportPNG(canvas, { renderer, scene, camera })
             } else {
               exportPNG(canvas)

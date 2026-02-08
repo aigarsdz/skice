@@ -48,6 +48,11 @@ scene.add(ambientLight)
 // scene.add(new THREE.AxesHelper(5))
 // scene.add(new THREE.DirectionalLightHelper(light, 0.25, 0x000000))
 
+function updateCanvasElementSize() {
+  canvas.style.width = `${canvasSettings.elementWidth}px`
+  canvas.style.height = `${canvasSettings.elementHeight}px`
+}
+
 function animate() {
   controls.update()
   renderer.render(scene, camera)
@@ -59,7 +64,8 @@ window.addEventListener('resize', () => {
   camera.right = zoom * canvasSettings.aspectRatio
 
   camera.updateProjectionMatrix()
-  renderer.setSize(canvasSettings.width, canvasSettings.height)
+  updateCanvasElementSize()
 })
 
+updateCanvasElementSize()
 animate()

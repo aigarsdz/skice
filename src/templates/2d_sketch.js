@@ -6,16 +6,18 @@ const canvasSettings = new CanvasSettings('2d')
 // canvasSettings.width = 1080
 // canvasSettings.height = 1080
 
-const context = canvas.getContext(canvasSettings.canvasContext)
+const context = canvas.getContext(canvasSettings.canvasContextType)
 
 canvasSettings.enableExport(canvas)
 
 // NOTE: this variable can be used for elapsed time calculations in the animate function.
 // const startTime = Date.now()
 
-function resizeCanvas() {
+function updateCanvasElementSize() {
   canvas.width = canvasSettings.width
   canvas.height = canvasSettings.height
+  canvas.style.width = `${canvasSettings.elementWidth}px`
+  canvas.style.height = `${canvasSettings.elementHeight}px`
 }
 
 function draw() {
@@ -44,10 +46,10 @@ function draw() {
   // requestAnimationFrame(draw)
 }
 
-resizeCanvas()
+updateCanvasElementSize()
 draw()
 
 window.addEventListener('resize', () => {
-  resizeCanvas()
+  updateCanvasElementSize()
   draw()
 })
