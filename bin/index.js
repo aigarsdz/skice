@@ -58,5 +58,5 @@ if (command.needsServer) {
 if (command.needsUpgrade) {
   const updater = new Updater()
 
-  updater.upgradeFrom(command.upgradePathOrigin, command.upgradePath, command.canvasContext)
+  updater.upgradeFrom(command.upgradePath, command.legacySketchFilePath, command.canvasContext, command.currentDirtectory)
 }

@@ -6,20 +6,23 @@ import Select from './select.js'
 
 class Updater {
   #UPGRADE_PATHS = {
-    '1.4.1': this.#upgradeFrom141
+    '1.4.1': this.#upgradeFrom141,
+    '2.0.0': this.#upgradeFrom200
   }
 
-  versionNumber;
-  filePath;
-  canvasContext
+  upgradePath;
+  legacySketchFilePath;
+  canvasContext;
+  currentDirtectory;
 
-  upgradeFrom(versionNumber, filePath, canvasContext) {
-    this.versionNumber = versionNumber
-    this.filePath = filePath
+  upgradeFrom(upgradePath, legacySketchFilePath, canvasContext, currentDirtectory) {
+    this.upgradePath = upgradePath
+    this.legacySketchFilePath = legacySketchFilePath
     this.canvasContext = canvasContext
+    this.currentDirtectory = currentDirtectory
 
-    if (this.#UPGRADE_PATHS[versionNumber]) {
-      this.#UPGRADE_PATHS[versionNumber].call(this)
+    if (this.#UPGRADE_PATHS[upgradePath]) {
+      this.#UPGRADE_PATHS[upgradePath].call(this)
     } else {
       throw new Error('The chosen upgrade path does not exist. Make sure you have specified a correct version number!')
     }
@@ -28,9 +31,9 @@ class Updater {
   #upgradeFrom141() {
     const ct = new ColourfulText()
 
-    if (fs.existsSync(this.filePath)) {
+    if (fs.existsSync(this.legacySketchFilePath)) {
       const projectManager = new ProjectManager()
-      const fileInfo = path.parse(this.filePath)
+      const fileInfo = path.parse(this.legacySketchFilePath)
       const projectDirectory = path.join(fileInfo.dir, fileInfo.name)
 
       projectManager.create(projectDirectory, this.canvasContext)
@@ -39,7 +42,7 @@ class Updater {
         const fileParentDirectoryContent = fs.readdirSync(fileInfo.dir).filter(file => file != fileInfo.base && file != fileInfo.name)
         const select = new Select('Use the space bar to select which files and directories to include in the project!', fileParentDirectoryContent, true)
 
-        fs.copyFileSync(this.filePath, projectManager.sketchFilePath)
+        fs.copyFileSync(this.legacySketchFilePath, projectManager.sketchFilePath)
 
         if (fileParentDirectoryContent.length > 0) {
           select.prompt(selected => {
@@ -56,7 +59,45 @@ class Updater {
         console.error(error)
       }
     } else {
-      console.error(ct.red(`The file path ${this.filePath} does not exist.`))
+      console.error(ct.red(`The file path ${this.legacySketchFilePath} does not exist.`).value)
+    }
+  }
+
+  #upgradeFrom200() {
+    const ct = new ColourfulText()
+    const sourceCanvasSettingsFilePath = path.resolve(import.meta.dirname, '../public/canvas_settings.js')
+    const sourceCanvasSizeFilePath = path.resolve(import.meta.dirname, '../public/canvas_size.js')
+    const targetCanvasSettingsFilePath = path.join(this.currentDirtectory, 'js/canvas_settings.js')
+    const targetCanvasSizeFilePath = path.join(this.currentDirtectory, 'js/canvas_size.js')
+    const indexFilePath = path.join(this.currentDirtectory, 'index.html')
+
+    try {
+      fs.cpSync(sourceCanvasSettingsFilePath, targetCanvasSettingsFilePath)
+
+      console.info(ct.clear().bold().green('update ').default(targetCanvasSettingsFilePath).value)
+
+      fs.cpSync(sourceCanvasSizeFilePath, targetCanvasSizeFilePath)
+
+      console.info(ct.clear().bold().green('update ').default(targetCanvasSizeFilePath).value)
+
+      const content = fs.readFileSync(indexFilePath).toString().replace(
+        '"exporter": "/js/exporter.js",',
+        `"exporter": "/js/exporter.js",
+        "canvas_size": "/js/canvas_size.js",`
+      )
+
+      fs.writeFileSync(indexFilePath, content)
+
+      console.info(ct.clear().bold().green('update ').default(indexFilePath).value)
+      console.log('\nAdd the following lines to the function that handles window resizing!\n')
+      console.log(
+        ct.clear()
+          .yellow("canvas.style.width = `${canvasSettings.elementWidth}px`\ncanvas.style.height = `${canvasSettings.elementHeight}px`\n")
+          .value
+      )
+    } catch(error) {
+      console.error(ct.red('Upgrade failed.').value)
+      console.error(error)
     }
   }
 }

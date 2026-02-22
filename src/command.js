@@ -25,7 +25,7 @@ class Command {
     '--context': this.#parseContext,
     '--port': this.#parsePortNumber,
     '--no-browser': this.#disableBrowser,
-    '--from': this.#parseUpgradePathOrigin
+    '--from': this.#parseUpgradePath
   }
 
   needsHelp = false
@@ -39,8 +39,8 @@ class Command {
   invokesBrowser = true
   portNumber = Configuration.portNumber
   needsUpgrade = false
-  upgradePath = 'currentDirectory'
-  upgradePathOrigin;
+  upgradePath;
+  legacySketchFilePath;
   currentDirtectory = process.cwd()
 
   constructor(argv) {
@@ -163,18 +163,18 @@ class Command {
 
   #parseUpgrade(_, callArguments) {
     const ct = new ColourfulText()
-    const upgradePath = callArguments.shift()
+    const legacySketchFilePath = callArguments.shift()
 
     this.needsUpgrade = true
 
-    if (upgradePath.startsWith('-')) {
-      callArguments.unshift(upgradePath)
-    } else if (fs.existsSync(upgradePath)) {
-      this.upgradePath = upgradePath
+    if (legacySketchFilePath.startsWith('-')) {
+      callArguments.unshift(legacySketchFilePath)
+    } else if (fs.existsSync(legacySketchFilePath)) {
+      this.legacySketchFilePath = legacySketchFilePath
     } else {
       this.needsUpgrade = false
 
-      console.error(ct.red(`\n${upgradePath} does not exist.\n`).value)
+      console.error(ct.red(`\n${legacySketchFilePath} does not exist.\n`).value)
 
       return PARSE_RESULTS.terminate
     }
@@ -182,12 +182,12 @@ class Command {
     return PARSE_RESULTS.proceed
   }
 
-  #parseUpgradePathOrigin(_, callArguments) {
+  #parseUpgradePath(_, callArguments) {
     const ct = new ColourfulText()
     const versionNumber = callArguments.shift()
 
     if (versionNumber) {
-      this.upgradePathOrigin = versionNumber
+      this.upgradePath = versionNumber
     } else {
       console.error(ct.red("\nThe current version number of the project is missing.\n").value)
 

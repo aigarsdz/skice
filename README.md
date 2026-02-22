@@ -69,6 +69,8 @@ Upgrades the project from an older version.
 
 ```bash
 skice upgrade /path/to/sketch_project --from 1.4.1 --context webgl
+
+skice upgrade --from 2.0.0
 ```
 
 ## Configuration
@@ -116,6 +118,21 @@ gets smaller than this value.
 The height of the canvas element. It will change automatically when the browser window
 gets smaller than this value.
 
+### CanvasSettings#size
+
+One of the standard paper sizes, e.g., A4, B5, Letter. The full list of available sizes can be found in
+the [canvas_size.js](public/canvas_size.js) file.
+
+```js
+const canvasSettings = new CanvasSettings()
+
+canvasSettings.size = 'A1' // equivalent to setting width to 7016 and height to 9933 at dpi 300
+```
+
+### CanvasSettings#dpi/CanvasSettings#ppi
+
+Required for the size property to apply the correct values in pixels. The default value is 300.
+
 ### CanvasSettings#exportAs
 
 The export format. The default is `image`.
@@ -147,6 +164,16 @@ This module provides convenience function for working with network requests.
 Available functions:
 - importPlainText(url: string): Promise<string> - loads a plain text file. It can be useful for importing GLSL files.
 
+## Upgrading from 2.x to 2.3.0
+
+Run `skice upgrade --from 2.0.0` inside the sketch directory! After the JavaScript files have been updated, add the following lines
+to the code that handles window resizing!
+
+```js
+canvas.style.width = `${canvasSettings.elementWidth}px`
+canvas.style.height = `${canvasSettings.elementHeight}px`
+```
+
 ## Upgrading from 1.4.1 to 2.x
 
 If you have a sketch file created by `skice` 1.4.1 or an older file that has been updated to work with
@@ -155,7 +182,7 @@ If you have a sketch file created by `skice` 1.4.1 or an older file that has bee
 ## Upgrading from 1.3.2 to 1.4.1
 
 Some of the functionality has been moved from the HTML template to the sketch file in preparation for
-version 2.0.0. Refer to the updated [Canvas 2D](templates/2d_sketch.js) and [WebGL](templates/webgl_sketch.js)
+version 2.0.0. Refer to the updated [Canvas 2D](src/templates/2d_sketch.js) and [WebGL](src/templates/webgl_sketch.js)
 sketch templates to see what code needs to be changed, but the most important part is to add `CanvasSettings`
 import and instantiation as well as a reference to the canvas element to your existing sketches like this.
 
