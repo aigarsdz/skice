@@ -17,14 +17,21 @@ function sleep(time) {
 test('Sketch upgrade', async t => {
   t.afterEach(() => {
     fs.rmSync(outputDirectoryPath, { force: true, recursive: true })
+    fs.rmSync('test/path_2.x', { force: true, recursive: true })
   })
 
   await t.test('Upgrade process from 1.4.1 to 2.0.0', async () => {
     fs.mkdirSync(outputDirectoryPath, { recursive: true })
     fs.copyFileSync(path.resolve('src/templates/webgl_sketch.js'), skice141SketchPath)
     spawn('node', [executablePath, 'upgrade', skice141SketchPath, '--from', '1.4.1', '--context', 'webgl'], { encoding : 'utf8' })
-
     await sleep(6000)
     assert.ok(fs.existsSync(path.join(outputDirectoryPath, 'sketch')))
+  })
+
+  await t.test('Upgrade process from 2.0.0 to 2.3.0', async () => {
+    fs.cpSync('test_helpers/2.2.0', 'test/path_2.x', { recursive: true })
+    spawn('node', [executablePath, 'upgrade', '--from', '2.0.0'], { encoding : 'utf8', cwd: 'test/path_2.x' })
+    await sleep(6000)
+    assert.ok(fs.existsSync('test/path_2.x/js/canvas_size.js'))
   })
 })

@@ -70,6 +70,7 @@ class Updater {
     const targetCanvasSettingsFilePath = path.join(this.currentDirtectory, 'js/canvas_settings.js')
     const targetCanvasSizeFilePath = path.join(this.currentDirtectory, 'js/canvas_size.js')
     const indexFilePath = path.join(this.currentDirtectory, 'index.html')
+    const configFilePath = path.join(this.currentDirtectory, 'skice.config.json')
 
     try {
       fs.cpSync(sourceCanvasSettingsFilePath, targetCanvasSettingsFilePath)
@@ -89,6 +90,15 @@ class Updater {
       fs.writeFileSync(indexFilePath, content)
 
       console.info(ct.clear().bold().green('update ').default(indexFilePath).value)
+
+      const skiceConfigContent = fs.readFileSync(configFilePath).toString()
+      const config = JSON.parse(skiceConfigContent)
+
+      config.skiceVersion = '2.3.0'
+
+      fs.writeFileSync(configFilePath, JSON.stringify(config, null, 2))
+
+      console.info(ct.clear().bold().green('update ').default(configFilePath).value)
       console.log('\nAdd the following lines to the function that handles window resizing!\n')
       console.log(
         ct.clear()
