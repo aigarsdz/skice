@@ -42,9 +42,12 @@ class Command {
   upgradePath;
   legacySketchFilePath;
   currentDirtectory = process.cwd()
+  packageDirectoryPath;
 
   constructor(argv) {
     const [nodeExecutable, execulatbleFile, ...callArguments] = argv
+
+    this.packageDirectoryPath = path.resolve(path.dirname(execulatbleFile), '..')
 
     this.#parseArguments(callArguments)
   }

@@ -18,11 +18,13 @@ class ProjectManager {
   sketchFilePath;
 
   #errors = []
+  #packageDirectoryPath;
 
-  create(directoryPath, canvasContext) {
+  create(directoryPath, canvasContext, packageDirectoryPath) {
     this.directoryPath = directoryPath
     this.projectName = path.basename(directoryPath)
     this.canvasContext = canvasContext
+    this.#packageDirectoryPath = packageDirectoryPath
 
     const ct = new ColourfulText()
 
@@ -86,13 +88,13 @@ class ProjectManager {
   }
 
   #copyConfigFile() {
-    const templateDirectoryPath = path.join('src', 'templates')
+    const templateDirectoryPath = path.join(this.#packageDirectoryPath, 'src', 'templates')
 
     this.#copyFile(path.join(templateDirectoryPath, 'skice.config.json'), path.join(this.directoryPath, 'skice.config.json'))
   }
 
   #copyIndexFile() {
-    const templateDirectoryPath = path.join('src', 'templates')
+    const templateDirectoryPath = path.join(this.#packageDirectoryPath, 'src', 'templates')
 
     this.#copyContextSpecificFile(
       path.join(templateDirectoryPath, 'webgl_index.html'),
@@ -102,7 +104,7 @@ class ProjectManager {
   }
 
   #copySketchFile() {
-    const templateDirectoryPath = path.join('src', 'templates')
+    const templateDirectoryPath = path.join(this.#packageDirectoryPath, 'src', 'templates')
 
     this.sketchFilePath = path.join(this.directoryPath, 'js', `${this.projectName}.js`)
 
@@ -114,7 +116,7 @@ class ProjectManager {
   }
 
   #copyPackageFile() {
-    const templateDirectoryPath = path.join('src', 'templates')
+    const templateDirectoryPath = path.join(this.#packageDirectoryPath, 'src', 'templates')
 
     this.#copyFile(path.join(templateDirectoryPath, 'package.json'), path.join(this.directoryPath, 'package.json'))
   }
@@ -172,7 +174,7 @@ class ProjectManager {
 
   #copyPublicFiles() {
     const ct = new ColourfulText()
-    const publicDirectoryPath = 'public'
+    const publicDirectoryPath = path.join(this.#packageDirectoryPath, 'public')
 
     try {
       const publicDirectoryContent = fs.readdirSync(publicDirectoryPath)

@@ -42,7 +42,7 @@ if (command.needsVersionNumber) {
 if (command.needsProject) {
   const projectManager = new ProjectManager()
 
-  projectManager.create(command.projectDirectoryPath, command.canvasContext)
+  projectManager.create(command.projectDirectoryPath, command.canvasContext, command.packageDirectoryPath)
 }
 
 if (command.needsServer) {
@@ -58,5 +58,5 @@ if (command.needsServer) {
 if (command.needsUpgrade) {
   const updater = new Updater()
 
-  updater.upgradeFrom(command.upgradePath, command.legacySketchFilePath, command.canvasContext, command.currentDirtectory)
+  updater.upgradeFrom(command.upgradePath, command.legacySketchFilePath, command.canvasContext, command.currentDirtectory, command.packageDirectoryPath)
 }

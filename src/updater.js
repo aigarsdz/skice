@@ -5,21 +5,24 @@ import ProjectManager from './project_manager.js'
 import Select from './select.js'
 
 class Updater {
-  #UPGRADE_PATHS = {
-    '1.4.1': this.#upgradeFrom141,
-    '2.0.0': this.#upgradeFrom200
-  }
-
   upgradePath;
   legacySketchFilePath;
   canvasContext;
   currentDirtectory;
 
-  upgradeFrom(upgradePath, legacySketchFilePath, canvasContext, currentDirtectory) {
+  #UPGRADE_PATHS = {
+    '1.4.1': this.#upgradeFrom141,
+    '2.0.0': this.#upgradeFrom200
+  }
+
+  #packageDirectoryPath;
+
+  upgradeFrom(upgradePath, legacySketchFilePath, canvasContext, currentDirtectory, packageDirectoryPath) {
     this.upgradePath = upgradePath
     this.legacySketchFilePath = legacySketchFilePath
     this.canvasContext = canvasContext
     this.currentDirtectory = currentDirtectory
+    this.#packageDirectoryPath = packageDirectoryPath
 
     if (this.#UPGRADE_PATHS[upgradePath]) {
       this.#UPGRADE_PATHS[upgradePath].call(this)
@@ -36,7 +39,7 @@ class Updater {
       const fileInfo = path.parse(this.legacySketchFilePath)
       const projectDirectory = path.join(fileInfo.dir, fileInfo.name)
 
-      projectManager.create(projectDirectory, this.canvasContext)
+      projectManager.create(projectDirectory, this.canvasContext, this.#packageDirectoryPath)
 
       try {
         const fileParentDirectoryContent = fs.readdirSync(fileInfo.dir).filter(file => file != fileInfo.base && file != fileInfo.name)
@@ -65,8 +68,8 @@ class Updater {
 
   #upgradeFrom200() {
     const ct = new ColourfulText()
-    const sourceCanvasSettingsFilePath = path.resolve(import.meta.dirname, '../public/canvas_settings.js')
-    const sourceCanvasSizeFilePath = path.resolve(import.meta.dirname, '../public/canvas_size.js')
+    const sourceCanvasSettingsFilePath = path.resolve(this.#packageDirectoryPath, 'public/canvas_settings.js')
+    const sourceCanvasSizeFilePath = path.resolve(this.#packageDirectoryPath, 'public/canvas_size.js')
     const targetCanvasSettingsFilePath = path.join(this.currentDirtectory, 'js/canvas_settings.js')
     const targetCanvasSizeFilePath = path.join(this.currentDirtectory, 'js/canvas_size.js')
     const indexFilePath = path.join(this.currentDirtectory, 'index.html')
